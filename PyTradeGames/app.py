@@ -1,10 +1,10 @@
 from flask import Flask
 
-from .ext.configuration import config
+from .ext import configuration
 
 app = Flask(__name__)
 
-config.init_app(app)
+configuration.init_app(app)
 
 @app.route('/')
 def index():
