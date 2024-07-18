@@ -3,4 +3,4 @@ TITLE = "PyTradeGames"
 
 [development]
 DEBUG = true
-# SQLALCHEMY_DATABASE_URI = "sqlite:///alguma_coisa.db"
+SQLALCHEMY_DATABASE_URI = "sqlite:///dev_database.db"
