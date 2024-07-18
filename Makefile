@@ -4,3 +4,6 @@ reinstall:
 	python -m pip install --upgrade pip
 	pip install -r requirements.txt
 	del uninstall.txt
+
+requirements:
+	pip freeze > requirements.txt
