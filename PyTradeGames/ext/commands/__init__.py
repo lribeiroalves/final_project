@@ -20,11 +20,12 @@ def drop_db():
 def populate_db():
     """Creates data for tests only"""
     data = [
-        Users(id = 1, username = 'lucas', password = '1234'),
-        Users(id = 2, username = 'selma', password = '1234')
+        Users(username = 'lucas', password = '1234'),
+        Users(username = 'selma', password = '1234')
     ]
     db.session.add_all(data)
     db.session.commit()
+    click.echo('Database populated.')
 
 
 def init_app(app):
