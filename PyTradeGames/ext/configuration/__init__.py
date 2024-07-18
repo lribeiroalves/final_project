@@ -1,3 +1,5 @@
+"""Settings Factory"""
+
 from dynaconf import FlaskDynaconf
 
 
