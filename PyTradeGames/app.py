@@ -7,10 +7,6 @@ from .ext import configuration
 def create_app():
     app = Flask(__name__)
     configuration.init_app(app)
-    
-    @app.route('/')
-    def index():
-        return 'Hello, World!'
 
     return app
 
