@@ -18,7 +18,7 @@ def drop_db():
 
 
 def populate_db():
-    """Creates data for tests only"""
+    """Creates data for development only"""
     user1 = Users(username = 'lucas', password = '1234', email = 'lucasribeiroalves@live.com', country = 'Brazil', games = [Games(name = 'God Of War', genres = [Genres(genre = 'Adventure')]), Games(name = 'The Legend of Zelda')])
     db.session.add(user1)
     games_query = db.session.execute(db.select(Games)).scalars()

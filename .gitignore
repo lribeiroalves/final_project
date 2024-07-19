@@ -3,3 +3,4 @@
 *.h
 /.venv
 *.db
+/__pycache__
