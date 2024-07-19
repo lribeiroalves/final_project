@@ -77,7 +77,7 @@ class Messages(db.Model):
     game_id:Mapped[int] = mapped_column(ForeignKey('games.id'))
     
 
-class Review(db.Model):
+class Reviews(db.Model):
     id:Mapped[int] = mapped_column(primary_key=True)
     grade:Mapped[int] = mapped_column(CheckConstraint('grade > 0 AND grade < 6'), nullable=False)
     message:Mapped[Optional[str]] = mapped_column(String(255))
