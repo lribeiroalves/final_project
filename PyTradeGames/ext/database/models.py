@@ -4,7 +4,25 @@ from . import db
 
 from sqlalchemy import String, Integer, DateTime, Boolean, ForeignKey, Column, CheckConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from typing import Optional
+from typing import Optional, List
+
+
+class UserGames(db.Model):
+    id = Column(Integer(), primary_key=True)
+    user_id = Column('user_id', Integer(), ForeignKey('users.id'))
+    game_id = Column('game_id', Integer(), ForeignKey('games.id'))
+
+
+class GamesGenre(db.Model):
+    id = Column(Integer(), primary_key=True)
+    game_id = Column('game_id', Integer(), ForeignKey('games.id'))
+    genre_id = Column('genre_id', Integer(), ForeignKey('genres.id'))
+
+
+class GamesConsole(db.Model):
+    id = Column(Integer(), primary_key=True)
+    game_id = Column('game_id', Integer(), ForeignKey('games.id'))
+    console_id = Column('console_id', Integer(), ForeignKey('consoles.id'))
 
 
 class Users(db.Model):
@@ -13,7 +31,9 @@ class Users(db.Model):
     email:Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
     password:Mapped[str] = mapped_column(String(255), nullable=False)
     country:Mapped[str] = mapped_column(String(255), nullable=False)
-    # games
+    
+    # relations
+    games:Mapped[List['Games']] = relationship(secondary='user_games', back_populates='users')
 
     def __repr__(self) -> str:
         return f'User(id={self.id}, username={self.username})'
@@ -22,37 +42,47 @@ class Users(db.Model):
 class Games(db.Model):
     id:Mapped[int] = mapped_column(primary_key=True)
     name:Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
-    # genre
-    # console
-    # users
+    
+    # relations
+    users:Mapped[List['Users']] = relationship(secondary='user_games', back_populates='games')
+    genres:Mapped[List['Genres']] = relationship(secondary='games_genre', back_populates='games')
+    consoles:Mapped[List['Consoles']] = relationship(secondary='games_console', back_populates='games')
 
 
 class Genres(db.Model):
     id:Mapped[int] = mapped_column(primary_key=True)
     genre:Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
-    # games
+
+    # relations
+    games:Mapped[List['Games']] = relationship(secondary='games_genre', back_populates='genres')
     
 
 class Consoles(db.Model):
     id:Mapped[int] = mapped_column(primary_key=True)
     name:Mapped[str] = mapped_column(String(255), unique=True, nullable=True)
     manufacturer:Mapped[str] = mapped_column(String(255), nullable=False)
-    # games
+    
+    # relations
+    games:Mapped[List['Games']] = relationship(secondary='games_console', back_populates='consoles')
     
 
 class Messages(db.Model):
     id:Mapped[int] = mapped_column(primary_key=True)
     content:Mapped[str] = mapped_column(String(255), nullable=False)
     status:Mapped[bool] = mapped_column(nullable=False)
-    # sender
-    # receiver
-    # game
+    
+    # relations
+    from_user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
+    to_user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
+    game_id:Mapped[int] = mapped_column(ForeignKey('games.id'))
     
 
 class Review(db.Model):
     id:Mapped[int] = mapped_column(primary_key=True)
     grade:Mapped[int] = mapped_column(CheckConstraint('grade > 0 AND grade < 6'), nullable=False)
     message:Mapped[Optional[str]] = mapped_column(String(255))
-    # user_reviewer
-    # user_reviewed
+    
+    # relations
+    from_user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
+    to_user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
     
