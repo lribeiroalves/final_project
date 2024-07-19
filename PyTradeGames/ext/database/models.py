@@ -8,7 +8,7 @@ from typing import Optional, List
 
 
 class UserGames(db.Model):
-    id = Column(Integer(), primary_key=True)
+    id:Mapped[int] = mapped_column(primary_key=True)
     user_id = Column('user_id', Integer(), ForeignKey('users.id'))
     game_id = Column('game_id', Integer(), ForeignKey('games.id'))
 
@@ -48,6 +48,9 @@ class Games(db.Model):
     genres:Mapped[List['Genres']] = relationship(secondary='games_genre', back_populates='games')
     consoles:Mapped[List['Consoles']] = relationship(secondary='games_console', back_populates='games')
 
+    def __repr__(self) -> str:
+        return f'Game(id={self.id}, name={self.name}, genre={self.genres}, console={self.consoles})'
+
 
 class Genres(db.Model):
     id:Mapped[int] = mapped_column(primary_key=True)
@@ -55,15 +58,29 @@ class Genres(db.Model):
 
     # relations
     games:Mapped[List['Games']] = relationship(secondary='games_genre', back_populates='genres')
+
+    def __repr__(self) -> str:
+        return f'{self.genre}'
+
+
+class Manufacturers(db.Model):
+    id:Mapped[int] = mapped_column(primary_key=True)
+    name:Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
+
+    def __repr__(self) -> str:
+        return f'{self.name}'
     
 
 class Consoles(db.Model):
     id:Mapped[int] = mapped_column(primary_key=True)
     name:Mapped[str] = mapped_column(String(255), unique=True, nullable=True)
-    manufacturer:Mapped[str] = mapped_column(String(255), nullable=False)
     
     # relations
     games:Mapped[List['Games']] = relationship(secondary='games_console', back_populates='consoles')
+    manufacturer:Mapped[int] = mapped_column(ForeignKey('manufacturers.id'))
+
+    def __repr__(self) -> str:
+        return f'{self.name}'
     
 
 class Messages(db.Model):
