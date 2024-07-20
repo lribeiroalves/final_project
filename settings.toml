@@ -2,7 +2,8 @@
 TITLE = "PyTradeGames"
 EXTENSIONS = [
     'PyTradeGames.ext.database:init_app',
-    'PyTradeGames.ext.commands:init_app',
+    'PyTradeGames.ext.migration:init_app',
+    'PyTradeGames.ext.cli:init_app',
 
     'PyTradeGames.blueprints.webui:init_app'
 ]
