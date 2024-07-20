@@ -31,6 +31,7 @@ class Users(db.Model):
     email:Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
     password:Mapped[str] = mapped_column(String(255), nullable=False)
     country:Mapped[str] = mapped_column(String(255), nullable=False)
+    admin:Mapped[bool] = mapped_column(nullable=False, default=False)
     
     # relations
     games:Mapped[List['Games']] = relationship(secondary='user_games', back_populates='users')
