@@ -64,7 +64,7 @@ class Genres(db.Model):
         return f'{self.genre}'
 
 
-class Manufacturers(db.Model):
+class Makers(db.Model):
     id:Mapped[int] = mapped_column(primary_key=True)
     name:Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
 
@@ -78,7 +78,7 @@ class Consoles(db.Model):
     
     # relations
     games:Mapped[List['Games']] = relationship(secondary='games_console', back_populates='consoles')
-    manufacturer:Mapped[int] = mapped_column(ForeignKey('manufacturers.id'))
+    makers:Mapped[int] = mapped_column(ForeignKey('makers.id'))
 
     def __repr__(self) -> str:
         return f'{self.name}'
