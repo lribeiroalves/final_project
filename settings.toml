@@ -8,7 +8,7 @@ EXTENSIONS = [
 
     'PyTradeGames.blueprints.webui:init_app'
 ]
-FLASK_ADMIN_SWATCH = 'lumen'
+FLASK_ADMIN_SWATCH = 'sandstone'
 
 
 [development]
