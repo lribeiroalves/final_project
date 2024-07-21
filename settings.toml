@@ -3,10 +3,13 @@ TITLE = "PyTradeGames"
 EXTENSIONS = [
     'PyTradeGames.ext.database:init_app',
     'PyTradeGames.ext.database.migration:init_app',
+    'PyTradeGames.ext.admin:init_app',
     'PyTradeGames.ext.cli:init_app',
 
     'PyTradeGames.blueprints.webui:init_app'
 ]
+FLASK_ADMIN_SWATCH = 'lumen'
+
 
 [development]
 DEBUG = true
