@@ -1,5 +1,6 @@
 [default]
 TITLE = "PyTradeGames"
+SECRET_KEY = "24992a60806afb5a0ff52331347a9e126fef45ed43f66d8d2ec5818d6cf4736d"
 EXTENSIONS = [
     'PyTradeGames.ext.database:init_app',
     'PyTradeGames.ext.database.migration:init_app',

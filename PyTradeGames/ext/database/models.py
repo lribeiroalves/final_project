@@ -30,7 +30,6 @@ class Users(db.Model):
     username:Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
     email:Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
     password:Mapped[str] = mapped_column(String(255), nullable=False)
-    country:Mapped[str] = mapped_column(String(255), nullable=False)
     admin:Mapped[bool] = mapped_column(nullable=False, default=False)
     
     # relations
@@ -64,9 +63,9 @@ class Genres(db.Model):
         return f'{self.genre}'
 
 
-class Makers(db.Model):
-    id:Mapped[int] = mapped_column(primary_key=True)
-    name:Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
+class Maker(db.Model):
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name:Mapped[str] = mapped_column(String(255))
 
     def __repr__(self) -> str:
         return f'{self.name}'
@@ -78,7 +77,8 @@ class Consoles(db.Model):
     
     # relations
     games:Mapped[List['Games']] = relationship(secondary='games_console', back_populates='consoles')
-    makers:Mapped[int] = mapped_column(ForeignKey('makers.id'))
+    maker_id: Mapped[int] = mapped_column(ForeignKey('maker.id'))
+    maker:Mapped['Maker'] = relationship()
 
     def __repr__(self) -> str:
         return f'{self.name}'
@@ -102,5 +102,7 @@ class Reviews(db.Model):
     
     # relations
     from_user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
+    from_user:Mapped['Users'] = relationship(foreign_keys=[from_user_id])
     to_user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
+    to_user:Mapped['Users'] = relationship(foreign_keys=[to_user_id])
     
