@@ -3,19 +3,12 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-    <p>Login</p>
-
-    <p>{{ current_user.is_anonymous }}</p>
-    <p>{{ current_user.is_authenticated }}</p>
-    <p>{{ current_user.is_active }}</p>
-    <p>{{ current_user.id }}</p>
-    <p>{{ current_user.username }}</p>
-    <p>{{ current_user.email }}</p>
+    <h1>Login</h1>
 
     <form action="{{url_for('webui.login')}}" method="post">
         {{ form.csrf_token }}
-        <p>{{ form.username.label }} {{ form.username(size=20) }}</p>
-        <p>{{ form.password.label }} {{ form.password(size=20)}}</p>
+        <p>{{ form.username.label }}<br>{{ form.username(size=20) }}<br>
+        {{ form.password.label }}<br>{{ form.password(size=20) }}</p>
         <input type="submit" value="Login">
     </form>
 
@@ -26,5 +19,5 @@
         {% endfor %}
         </ul>
     {% endif %}
-
+    
 {% endblock %}
