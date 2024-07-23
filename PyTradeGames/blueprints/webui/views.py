@@ -9,7 +9,7 @@ from .forms import LoginForm, RegisterForm
 
 
 def index():
-    return render_template('base.html')
+    return render_template('homepage/index.html')
 
 
 def login():
