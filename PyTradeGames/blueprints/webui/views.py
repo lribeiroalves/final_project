@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from PyTradeGames.ext.database import db
 from PyTradeGames.ext.database.models import Users
 
-from .forms import LoginForm
+from .forms import LoginForm, RegisterForm
 
 
 def index():
@@ -17,9 +17,16 @@ def login():
     
     if form.validate_on_submit():
         user = db.session.execute(db.select(Users).filter_by(username=form.username.data)).scalar()
-        if form.password.data == '1234':
-            login_user(user)
-        else:
-            logout_user()
+        # criar a logica de validação de usuario e senha
 
     return render_template('auth/login.html', form=form)
+
+
+def logout():
+    return 'logout view'
+
+
+def register():
+    form = RegisterForm()
+    
+    return 'register view'

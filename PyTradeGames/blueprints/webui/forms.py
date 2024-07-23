@@ -25,3 +25,7 @@ def user_exist():
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), user_exist()])
     password = PasswordField('Password', validators=[DataRequired()])
+
+
+class RegisterForm(FlaskForm):
+    pass
