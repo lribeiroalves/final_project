@@ -5,6 +5,7 @@ from . import db
 from sqlalchemy import String, Integer, DateTime, Boolean, ForeignKey, Column, CheckConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Optional, List
+from flask_login import UserMixin
 
 
 class UserGames(db.Model):
@@ -25,7 +26,7 @@ class GamesConsole(db.Model):
     console_id = Column('console_id', Integer(), ForeignKey('consoles.id'))
 
 
-class Users(db.Model):
+class Users(db.Model, UserMixin):
     id:Mapped[int] = mapped_column(primary_key=True)
     username:Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
     email:Mapped[str] = mapped_column(String(255), unique=True, nullable=False)

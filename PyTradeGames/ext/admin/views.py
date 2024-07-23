@@ -1,11 +1,24 @@
+from flask import url_for, redirect, request
+
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.actions import action
+
 from ..database import db
 from ..database.models import Users
 
+from flask_login import current_user
 
 
-class UserAdmin(ModelView):
+class MyModelView(ModelView):
+    def is_accessible(self):
+        return current_user.admin
+
+    def inaccessible_callback(self, name, **kwargs):
+        # redirect to login page if user doesn't have access
+        return redirect(url_for('webui.login', next=request.url))
+
+
+class UserAdmin(MyModelView):
     column_formatters = {
         'username': lambda s, r, u, *a: u.username.capitalize(),
         'games': lambda s, r, u, *a: [game.name for game in u.games]
@@ -27,7 +40,7 @@ class UserAdmin(ModelView):
         db.session.commit()
 
 
-class GameAdmin(ModelView):
+class GameAdmin(MyModelView):
     column_formatters = {
         'users': lambda s, r, g, *a: [user.username for user in g.users]
     }
@@ -37,7 +50,7 @@ class GameAdmin(ModelView):
     can_delete = False
 
 
-class GenreAdmin(ModelView):
+class GenreAdmin(MyModelView):
     column_formatters = {
         'games': lambda s, r, g, *a: [game.name for game in g.games]
     }
@@ -46,7 +59,7 @@ class GenreAdmin(ModelView):
     can_delete = False
 
 
-class ConsoleAdmin(ModelView):
+class ConsoleAdmin(MyModelView):
     column_formatters = {
         'games': lambda s, r, c, *a: [game.name for game in c.games]
     }
@@ -56,5 +69,5 @@ class ConsoleAdmin(ModelView):
     can_delete = False
 
 
-class MakerAdmin(ModelView):
+class MakerAdmin(MyModelView):    
     can_delete = False

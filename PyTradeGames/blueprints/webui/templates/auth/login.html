@@ -5,6 +5,13 @@
 {% block content %}
     <p>Login</p>
 
+    <p>{{ current_user.is_anonymous }}</p>
+    <p>{{ current_user.is_authenticated }}</p>
+    <p>{{ current_user.is_active }}</p>
+    <p>{{ current_user.id }}</p>
+    <p>{{ current_user.username }}</p>
+    <p>{{ current_user.email }}</p>
+
     <form action="{{url_for('webui.login')}}" method="post">
         {{ form.csrf_token }}
         <p>{{ form.username.label }} {{ form.username(size=20) }}</p>
