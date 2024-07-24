@@ -32,5 +32,6 @@ def register():
     
     if form.validate_on_submit():
         print('registered')
+        # criar a lógica de registro de usuario
 
     return render_template('auth/register.html', form=form)
