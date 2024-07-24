@@ -3,10 +3,20 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class=flashes>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
 
     <h1><a href="{{url_for('webui.index')}}">{{config['TITLE']}}</a> - HOMEPAGE</h1>
 
     {% if current_user.is_authenticated %}
+        <p>User logged: {{current_user.username}}</p>
         <form action="{{url_for('webui.logout')}}" method="get">
             <input type="submit" value="Logout">
         </form>

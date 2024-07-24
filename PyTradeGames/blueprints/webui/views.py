@@ -1,5 +1,5 @@
-from flask import render_template
-from flask_login import login_user, logout_user
+from flask import render_template, flash, redirect, url_for
+from flask_login import login_user, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from PyTradeGames.ext.database import db
@@ -17,21 +17,41 @@ def login():
     
     if form.validate_on_submit():
         user = db.session.execute(db.select(Users).filter_by(username=form.username.data)).scalar()
-        print('logged in')
-        # criar a logica de validação de usuario e senha
+        
+        if not check_password_hash(user.password, form.password.data):
+            flash('User or password Incorrect.')
+            return redirect(url_for('webui.login'))
+        else:
+            login_user(user)
+            flash(f'User has logged in successfully.')
+            return redirect(url_for('webui.index'))
 
     return render_template('auth/login.html', form=form)
 
 
 def logout():
-    return 'logout view'
+    if current_user.is_authenticated:
+        logout_user()
+        flash('User logged out.')
+
+    return redirect(url_for('webui.index'))
 
 
 def register():
     form = RegisterForm()
     
     if form.validate_on_submit():
-        print('registered')
-        # criar a lógica de registro de usuario
+        new_user = Users()
+        new_user.username = form.username.data
+        new_user.email = form.email.data
+        new_user.password = generate_password_hash(form.password.data)
+        new_user.admin = False
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        flash('Registration successfull.')
+
+        return redirect(url_for('webui.index'))
 
     return render_template('auth/register.html', form=form)
