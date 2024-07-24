@@ -7,14 +7,26 @@
 
     <form action="{{url_for('webui.login')}}" method="post">
         {{ form.csrf_token }}
-        <p>{{ form.username.label }}<br>{{ form.username(size=20) }}<br>
-        {{ form.password.label }}<br>{{ form.password(size=20) }}</p>
+        <p>
+            {{ form.username.label }} <br>
+            {{ form.username(size=20) }} <br>
+            {{ form.password.label }} <br>
+            {{ form.password(size=20) }}
+        </p>
         <input type="submit" value="Login">
     </form>
 
     {% if form.username.errors %}
         <ul class="errors">
         {% for error in form.username.errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if form.password.errors %}
+        <ul class="errors">
+        {% for error in form.password.errors %}
             <li>{{ error }}</li>
         {% endfor %}
         </ul>

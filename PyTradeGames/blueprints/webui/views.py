@@ -17,6 +17,7 @@ def login():
     
     if form.validate_on_submit():
         user = db.session.execute(db.select(Users).filter_by(username=form.username.data)).scalar()
+        print('logged in')
         # criar a logica de validação de usuario e senha
 
     return render_template('auth/login.html', form=form)
@@ -29,4 +30,7 @@ def logout():
 def register():
     form = RegisterForm()
     
-    return 'register view'
+    if form.validate_on_submit():
+        print('registered')
+
+    return render_template('auth/register.html', form=form)
