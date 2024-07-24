@@ -4,10 +4,10 @@
 
 {% block content %}
 
-    <h1>{{config['TITLE']}} - HOMEPAGE</h1>
+    <h1><a href="{{url_for('webui.index')}}">{{config['TITLE']}}</a> - HOMEPAGE</h1>
 
     {% if current_user.is_authenticated %}
-        <form action="{{url_for('webui.logout')}}">
+        <form action="{{url_for('webui.logout')}}" method="get">
             <input type="submit" value="Logout">
         </form>
     {% else %}
