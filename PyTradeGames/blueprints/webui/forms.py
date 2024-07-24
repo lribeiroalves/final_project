@@ -2,7 +2,7 @@ from PyTradeGames.ext.database import db
 from PyTradeGames.ext.database.models import Users
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, EmailField
+from wtforms import StringField, PasswordField, EmailField, HiddenField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 
 from password_strength import PasswordPolicy, PasswordStats
@@ -67,7 +67,9 @@ def password_check():
         pw = field.data
         
         if len(pw_policy.test(pw)) > 0:
-            raise ValidationError("Password doesn't meet the minimum requirements.")
+            raise ValidationError(
+                """Password doesn't meet the minimum requirements: At least 8 character, 1 number, 1 uppercase letter and 1 special character."""
+                )
         elif PasswordStats(pw).strength() < 0.333:
             raise ValidationError("Password too weak!")
     
@@ -78,6 +80,7 @@ def password_check():
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), user_exist()])
     password = PasswordField('Password', validators=[DataRequired()])
+    next = HiddenField('next')
 
 
 class RegisterForm(FlaskForm):

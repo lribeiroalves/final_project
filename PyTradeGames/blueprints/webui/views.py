@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -24,9 +24,14 @@ def login():
         else:
             login_user(user)
             flash(f'User has logged in successfully.')
-            return redirect(url_for('webui.index'))
 
-    return render_template('auth/login.html', form=form)
+            next_request = form.next.data
+            return redirect(next_request or url_for('webui.index'))
+
+    next = request.args.get('next')
+    print(next)
+    
+    return render_template('auth/login.html', form=form, next=next)
 
 
 def logout():
@@ -52,6 +57,6 @@ def register():
 
         flash('Registration successfull.')
 
-        return redirect(url_for('webui.index'))
+        return redirect(url_for('webui.login'))
 
     return render_template('auth/register.html', form=form)
