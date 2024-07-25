@@ -1,3 +1,5 @@
+"""Creation of the views to registered on the webui blueprint"""
+
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash

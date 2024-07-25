@@ -1,3 +1,5 @@
+"""Database Migration Factory"""
+
 from flask_migrate import Migrate
 
 from PyTradeGames.ext.database import db

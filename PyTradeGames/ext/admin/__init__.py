@@ -1,3 +1,5 @@
+"""Factory and coniguring of admin interface"""
+
 from flask import redirect, url_for, request
 from flask_login import current_user
 from flask_admin import Admin, AdminIndexView

@@ -1,3 +1,5 @@
+"""Webui blueprint factory"""
+
 from flask import Blueprint
 
 from .views import index, login, logout, register

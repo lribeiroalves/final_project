@@ -1,3 +1,6 @@
+"""Creation of classes for the Admin Views.
+Each class represents a tab on the Admin NavBar"""
+
 from flask import url_for, redirect, request
 
 from flask_admin.contrib.sqla import ModelView

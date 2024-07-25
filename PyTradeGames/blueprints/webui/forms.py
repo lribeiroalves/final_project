@@ -1,3 +1,5 @@
+"""Creation of forms to be used on webui."""
+
 from PyTradeGames.ext.database import db
 from PyTradeGames.ext.database.models import Users
 

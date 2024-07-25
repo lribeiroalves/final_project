@@ -1,3 +1,5 @@
+"""Factory and configuring of Authentication interface."""
+
 from flask_login import LoginManager, AnonymousUserMixin
 
 from PyTradeGames.ext.database import db
@@ -10,7 +12,7 @@ login_manager = LoginManager()
 def load_user(user_id):
     return db.session.execute(db.select(Users).filter_by(id = user_id)).scalar()
 
-
+# subclass of Anonymous users so they can have a admin atribute
 class Anonymous(AnonymousUserMixin):
   def __init__(self):
     self.admin = False
