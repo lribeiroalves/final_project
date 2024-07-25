@@ -53,7 +53,8 @@ def populate_db():
     games_query = db.session.execute(db.select(Games)).scalars().all()
 
     users = [
-        Users(username = 'lribeiro', email = 'lucasribeiroalves@live.com', password = generate_password_hash('Flask@2024'), admin = True, games = [g for g in games_query]),
+        Users(username = 'admin', email = 'admin@admin.com', password = generate_password_hash('Admin@Py_Trade_Games'), admin = True),
+        Users(username = 'lribeiro', email = 'lucasribeiroalves@live.com', password = generate_password_hash('Flask@2024'), admin = False, games = [g for g in games_query]),
         Users(username = 'seduarte', email = 'selma@hotmail.com', password = generate_password_hash('Flask@2024'), admin = False, games = [games_query[1]]),
     ]
     db.session.add_all(users)
