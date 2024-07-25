@@ -44,7 +44,6 @@ def populate_db():
     ]
     db.session.add_all(genres)
     genres_query = db.session.execute(db.select(Genres)).scalars().all()
-    print(type(genres_query[0]))
 
     games = [
         Games(name='The Elder Scrolls V - Skyrim', genres = [genres_query[0], genres_query[2]], consoles = [c for c in consoles_query]),
