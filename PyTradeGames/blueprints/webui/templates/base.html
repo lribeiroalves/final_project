@@ -11,36 +11,36 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Third navbar example">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">{{ config['TITLE'] }}</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <header class="p-3 text-bg-dark">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32" fill="currentColor" class="bi bi-fire" viewBox="0 0 16 16">
+                        <path d="M8 16c3.314 0 6-2 6-5.5 0-1.5-.5-4-2.5-6 .25 1.5-1.25 2-1.25 2C11 4 9 .5 6 0c.357 2 .5 4-2 6-1.25 1-2 2.729-2 4.5C2 14 4.686 16 8 16m0-1c-1.657 0-3-1-3-2.75 0-.75.25-2 1.25-3C6.125 10 7 10.5 7 10.5c-.375-1.25.5-3.25 2-3.5-.179 1-.25 2 1 3 .625.5 1 1.364 1 2.25C11 14 9.657 15 8 15"/>
+                    </svg>
+                    {{config['TITLE']}}
+                </a>
     
-            <div class="collapse navbar-collapse" id="navbarsExample03">
-                <ul class="navbar-nav me-auto mb-2 mb-sm-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0" style="padding-left: 40px;">
+                    <li><a href="{{url_for('webui.index')}}" class="nav-link px-2 text-secondary">Home</a></li> <!-- Tela inicial -->
+                    <li><a href="#" class="nav-link px-2 text-white">All Users</a></li> <!-- Tela para exibir os outros usuários e seus jogos e iniciar intenções de troca -->
+                    <li><a href="#" class="nav-link px-2 text-white">Games</a></li> <!-- Tela para cadastrar novos jogos para o próprio usuário -->
                 </ul>
+                
+                {% if not current_user.is_authenticated %}
+                    <div class="text-end">
+                        <a href="{{url_for('webui.login')}}"><button type="button" class="btn btn-outline-warning me-2">Login</button></a>
+                        <a href="{{url_for('webui.register')}}"><button type="button" class="btn btn-warning">Sign-up</button></a>
+                    </div>
+                {% else %}
+                    <div class="text-end">
+                        <a href="#"><button type="button" class="btn btn-outline-warning">{{current_user.username}}</button></a>
+                        <a href="{{url_for('webui.logout')}}"><button type="button" class="btn btn-warning me-2">Logout</button></a>
+                    </div>
+                {% endif %}
             </div>
         </div>
-    </nav>
+    </header>
 
     <main role="main" class="flex-shrink-0" style="background-color: orange;">
         <div class="container" style="background-color: white;">
@@ -53,7 +53,9 @@
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
           <div class="col-md-4 d-flex align-items-center">
             <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
-              <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="24" fill="currentColor" class="bi bi-fire" viewBox="0 0 16 16">
+                    <path d="M8 16c3.314 0 6-2 6-5.5 0-1.5-.5-4-2.5-6 .25 1.5-1.25 2-1.25 2C11 4 9 .5 6 0c.357 2 .5 4-2 6-1.25 1-2 2.729-2 4.5C2 14 4.686 16 8 16m0-1c-1.657 0-3-1-3-2.75 0-.75.25-2 1.25-3C6.125 10 7 10.5 7 10.5c-.375-1.25.5-3.25 2-3.5-.179 1-.25 2 1 3 .625.5 1 1.364 1 2.25C11 14 9.657 15 8 15"/>
+                </svg>
             </a>
             <span class="mb-3 mb-md-0 text-body-secondary">© 2024 - CS50x - Lucas Ribeiro Alves</span>
           </div>

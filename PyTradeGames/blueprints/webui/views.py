@@ -28,10 +28,9 @@ def login():
             flash(f'User has logged in successfully.')
 
             next_request = form.next.data
-            return redirect(next_request or url_for('webui.index'))
+            return redirect(next_request) if next_request != 'None' else redirect(url_for('webui.index'))
 
     next = request.args.get('next')
-    print(next)
     
     return render_template('auth/login.html', form=form, next=next)
 
