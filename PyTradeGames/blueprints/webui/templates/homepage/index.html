@@ -1,4 +1,4 @@
-{%  extends "base.html" %}
+{%  extends "layout.html" %}
 
 {% block title %}Home{% endblock %}
 
@@ -26,4 +26,5 @@
             <input type="submit" value="Register" formaction="{{url_for('webui.register')}}">
         </form>
     {% endif %}
+    
 {% endblock %}

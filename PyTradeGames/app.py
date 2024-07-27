@@ -8,7 +8,8 @@ import os
 
 def create_app():
     template_dir = os.path.abspath('PyTradeGames/blueprints/webui/templates')
-    app = Flask(__name__, template_folder=template_dir)
+    static_dir = os.path.abspath('PyTradeGames/blueprints/webui/static')
+    app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
     configuration.init_app(app)
 
     return app
