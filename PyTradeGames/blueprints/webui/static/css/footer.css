@@ -2,5 +2,23 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 60px; /* Set the fixed height of the footer */
+    height: 50px; /* Set the fixed height of the footer */
+    font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+
+    .footer {
+        font-size: 0.6rem;
+    }
+
+    .home-icon {
+        width: 24px;
+        height: 20px;
+    }
+
+    footer ul svg {
+        width: 15px;
+        height: 15px;
+    }
 }

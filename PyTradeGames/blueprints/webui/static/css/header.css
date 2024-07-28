@@ -1,0 +1,11 @@
+@media (max-width: 575px){
+    header ul {
+        padding-left: 0px !important;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 992px) {
+    header ul {
+        padding-right: 40px !important;
+    }
+}
