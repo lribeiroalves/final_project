@@ -9,3 +9,9 @@
         padding-right: 40px !important;
     }
 }
+
+@media (min-width: 768px) {
+    header, nav {
+        height: 60px;
+    }
+}
