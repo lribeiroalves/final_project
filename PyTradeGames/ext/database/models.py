@@ -6,6 +6,7 @@ from sqlalchemy import String, Integer, DateTime, Boolean, ForeignKey, Column, C
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Optional, List
 from flask_login import UserMixin
+import datetime as dt
 
 
 class UserGames(db.Model):
@@ -106,4 +107,16 @@ class Reviews(db.Model):
     from_user:Mapped['Users'] = relationship(foreign_keys=[from_user_id])
     to_user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
     to_user:Mapped['Users'] = relationship(foreign_keys=[to_user_id])
-    
+
+
+class Trades(db.Model):
+    id:Mapped[int] = mapped_column(primary_key=True)
+    status:Mapped[str] = mapped_column(String(255), nullable=False)
+    initial_datetime:Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    final_datetime:Mapped[DateTime] = mapped_column(DateTime(timezone=True), default=dt.datetime.now())
+
+    # relations
+    start_user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
+    start_user:Mapped['Users'] = relationship(foreign_keys=[start_user_id])
+    end_user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
+    end_user:Mapped['Users'] = relationship(foreign_keys=[end_user_id])
