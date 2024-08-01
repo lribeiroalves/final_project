@@ -13,6 +13,3 @@ def create_app():
     configuration.init_app(app)
 
     return app
-
-
-# teste de branch 
