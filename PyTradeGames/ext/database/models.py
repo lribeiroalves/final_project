@@ -33,6 +33,7 @@ class Users(db.Model, UserMixin):
     email:Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
     password:Mapped[str] = mapped_column(String(255), nullable=False)
     admin:Mapped[bool] = mapped_column(nullable=False, default=False)
+    since:Mapped[Optional[DateTime]] = mapped_column(DateTime(timezone=True), nullable=True)
     
     # relations
     games:Mapped[List['Games']] = relationship(secondary='user_games', back_populates='users')
@@ -75,7 +76,7 @@ class Maker(db.Model):
 
 class Consoles(db.Model):
     id:Mapped[int] = mapped_column(primary_key=True)
-    name:Mapped[str] = mapped_column(String(255), unique=True, nullable=True)
+    name:Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
     
     # relations
     games:Mapped[List['Games']] = relationship(secondary='games_console', back_populates='consoles')
@@ -90,11 +91,15 @@ class Messages(db.Model):
     id:Mapped[int] = mapped_column(primary_key=True)
     content:Mapped[str] = mapped_column(String(255), nullable=False)
     status:Mapped[bool] = mapped_column(nullable=False)
+    date:Mapped[DateTime] = mapped_column(DateTime(timezone=True), nullable=False)
     
     # relations
     from_user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
+    from_user:Mapped['Users'] = relationship(foreign_keys=[from_user_id])
     to_user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
+    to_user:Mapped['Users'] = relationship(foreign_keys=[to_user_id])
     game_id:Mapped[int] = mapped_column(ForeignKey('games.id'))
+    game:Mapped['Games'] = relationship(foreign_keys=[game_id])
     
 
 class Reviews(db.Model):
@@ -107,16 +112,21 @@ class Reviews(db.Model):
     from_user:Mapped['Users'] = relationship(foreign_keys=[from_user_id])
     to_user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
     to_user:Mapped['Users'] = relationship(foreign_keys=[to_user_id])
+    trade_id:Mapped[int] = mapped_column(ForeignKey('trades.id'))
+    trade:Mapped['Trades'] = relationship(foreign_keys=[trade_id])
 
 
 class Trades(db.Model):
     id:Mapped[int] = mapped_column(primary_key=True)
     status:Mapped[str] = mapped_column(String(255), nullable=False)
-    initial_datetime:Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now())
-    final_datetime:Mapped[DateTime] = mapped_column(DateTime(timezone=True), default=dt.datetime.now())
+    initial_datetime:Mapped[DateTime] = mapped_column(DateTime(timezone=True), nullable=True)
+    final_datetime:Mapped[DateTime] = mapped_column(DateTime(timezone=True), nullable=True)
 
     # relations
     start_user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
     start_user:Mapped['Users'] = relationship(foreign_keys=[start_user_id])
     end_user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
     end_user:Mapped['Users'] = relationship(foreign_keys=[end_user_id])
+
+    def __repr__(self) -> str:
+        return f'Trade(status={self.status}, start_user={self.start_user}, end_user={self.end_user}, initial_datetime={self.initial_datetime})'

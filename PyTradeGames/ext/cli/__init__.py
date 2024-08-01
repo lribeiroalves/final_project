@@ -1,9 +1,10 @@
 """CLI Commands Factory"""
 
 from PyTradeGames.ext.database import db
-from PyTradeGames.ext.database.models import Users, Games, Genres, Maker, Consoles
+from PyTradeGames.ext.database.models import Users, Games, Genres, Maker, Consoles, Trades
 import click
 from werkzeug.security import generate_password_hash
+import datetime
 
 
 def create_db():
@@ -53,21 +54,15 @@ def populate_db():
     games_query = db.session.execute(db.select(Games)).scalars().all()
 
     users = [
-        Users(username = 'admin', email = 'admin@admin.com', password = generate_password_hash('Admin@Py_Trade_Games'), admin = True),
-        Users(username = 'lribeiro', email = 'lucasribeiroalves@live.com', password = generate_password_hash('Flask@2024'), admin = False, games = [g for g in games_query]),
-        Users(username = 'seduarte', email = 'selma@hotmail.com', password = generate_password_hash('Flask@2024'), admin = False, games = [games_query[1]]),
+        Users(username = 'admin', email = 'admin@admin.com', password = generate_password_hash('Admin@Py_Trade_Games'), admin = True, since = datetime.datetime.now()),
+        Users(username = 'lribeiro', email = 'lucasribeiroalves@live.com', password = generate_password_hash('Flask@2024'), admin = False, games = [g for g in games_query], since = datetime.datetime.now()),
+        Users(username = 'seduarte', email = 'selma@hotmail.com', password = generate_password_hash('Flask@2024'), admin = False, games = [games_query[1]], since = datetime.datetime.now()),
     ]
     db.session.add_all(users)
     
     db.session.commit()
-
-    # user1 = Users(username = 'lucas', password = '1234', email = 'lucasribeiroalves@live.com', games = [Games(name = 'God Of War', genres = [Genres(genre = 'Adventure')]), Games(name = 'The Legend of Zelda')], admin = True)
-    # db.session.add(user1)
-    # games_query = db.session.execute(db.select(Games)).scalars()
-    # user2 = Users(username = 'selma', password = '1234', email = 'selma@email.com', games = [game for game in games_query])
-    # db.session.add(user2)
-    # db.session.commit()
     click.echo('Database populated.')
+
 
 
 def init_app(app):
