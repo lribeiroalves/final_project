@@ -10,10 +10,17 @@ from PyTradeGames.ext.database.models import Users
 from .forms import LoginForm, RegisterForm
 
 
+# HOMEPAGE
 def index():
     return render_template('homepage/index.html')
 
 
+# USER INTERFACE
+def profile():
+    return render_template('homepage/profile.html')
+
+
+# AUTHENTIFICATION
 def login():
     form = LoginForm()
     

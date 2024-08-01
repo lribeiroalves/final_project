@@ -41,7 +41,7 @@
                             </div>
                         {% else %}
                             <div class="text-end">
-                                <a href="#"><button type="button" class="btn btn-outline-warning">{{current_user.username}}</button></a>
+                                <a href="{{url_for('webui.profile')}}"><button type="button" class="btn btn-outline-warning">{{current_user.username}}</button></a>
                                 <a href="{{url_for('webui.logout')}}"><button type="button" class="btn btn-warning me-2">Logout</button></a>
                             </div>
                         {% endif %}
