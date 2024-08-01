@@ -50,9 +50,25 @@
             </nav>
         </header>
 
-        {% block main %}
+        <main>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="alert p-0">
+                        <ul class="list-group">
+                            {% for message in messages %}
+                            <li class="list-group-item list-group-item-warning mt-1 mx-5">
+                                {{ message }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            {% block main %}
+            {% endblock %}
+        </main>
             
-        {% endblock %}
 
         <footer class="w-100 footer px-5 d-flex flex-wrap justify-content-between align-items-center py-3 border-top">
           <div class="align-items-center">
@@ -77,5 +93,9 @@
         </footer>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        
+        {% block js %}
+        {% endblock %}
+        
     </body>
 </html>
