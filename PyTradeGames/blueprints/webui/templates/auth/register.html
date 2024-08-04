@@ -6,6 +6,10 @@
 <link rel="stylesheet" href="{{url_for('static', filename='css/center-form.css')}}">
 {% endblock %}
 
+{% block nav_home %}white{% endblock %}
+{% block nav_users %}white{% endblock %}
+{% block nav_games %}white{% endblock %}
+
 {% block main %}
     {% if form.username.errors %}
         <div class="alert p-0">{{ error }}

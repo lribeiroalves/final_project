@@ -1,13 +1,13 @@
 """Creation of the views to registered on the webui blueprint"""
 
 from flask import render_template, flash, redirect, url_for, request
-from flask_login import login_user, logout_user, current_user
+from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from PyTradeGames.ext.database import db
-from PyTradeGames.ext.database.models import Users
-
 from .forms import LoginForm, RegisterForm
+
+from PyTradeGames.ext.database import db
+from PyTradeGames.ext.database.models import *
 
 
 # HOMEPAGE
@@ -16,12 +16,22 @@ def index():
 
 
 # USER INTERFACE
+@login_required
 def profile():
     return render_template('homepage/profile.html')
 
 
+@login_required
+def add_game():
+    return render_template('homepage/add_game.html')
+
+
 # AUTHENTIFICATION
 def login():
+    if current_user.is_authenticated:
+        flash('User already autenticated.')
+        return redirect(url_for('webui.index'))
+
     form = LoginForm()
     
     if form.validate_on_submit():
@@ -42,6 +52,7 @@ def login():
     return render_template('auth/login.html', form=form, next=next)
 
 
+@login_required
 def logout():
     if current_user.is_authenticated:
         logout_user()
@@ -51,6 +62,10 @@ def logout():
 
 
 def register():
+    if current_user.is_authenticated:
+        flash('User already autenticated.')
+        return redirect(url_for('webui.index'))
+
     form = RegisterForm()
     
     if form.validate_on_submit():
