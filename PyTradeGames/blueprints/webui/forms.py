@@ -4,7 +4,7 @@ from PyTradeGames.ext.database import db
 from PyTradeGames.ext.database.models import Users
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, EmailField, HiddenField
+from wtforms import StringField, PasswordField, EmailField, HiddenField, IntegerField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 
 from password_strength import PasswordPolicy, PasswordStats
@@ -90,3 +90,8 @@ class RegisterForm(FlaskForm):
     email = EmailField('Email', validators=[DataRequired(), email_check(), Email(check_deliverability=True, message='Not a valid e-mail address.')])
     password = PasswordField('Password', validators=[DataRequired(), password_check(), EqualTo('confirm_password', message='Password and confirmation must match')])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired()])
+
+
+class AddGameForm(FlaskForm):
+    game_id = HiddenField('game_id', validators=[DataRequired()])
+    game = StringField('Game', validators=[DataRequired()])

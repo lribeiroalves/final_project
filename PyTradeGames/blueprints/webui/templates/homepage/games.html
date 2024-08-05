@@ -21,7 +21,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <form action="{{url_for('webui.add_game')}}" method="post">
+                        {{ form.csrf_token }}
+                        {{ form.game_id(value="1") }}
+                        {{ form.game.label }}
+                        {{ form.game(class="form-control", disabled=True, value="Teste") }}
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

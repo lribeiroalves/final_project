@@ -1,10 +1,10 @@
 """Creation of the views to registered on the webui blueprint"""
 
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, abort
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, AddGameForm
 
 from PyTradeGames.ext.database import db
 from PyTradeGames.ext.database.models import *
@@ -21,9 +21,30 @@ def profile():
     return render_template('homepage/profile.html')
 
 
-def add_games():
+def games():
+    form = AddGameForm()
     games = db.session.execute(db.select(Games)).scalars()
-    return render_template('homepage/games.html', games = games)
+
+    return render_template('homepage/games.html', games=games, form=form)
+
+
+@login_required
+def add_game():
+    form = AddGameForm()
+
+    if form.validate_on_submit():
+        game_id = int(form.game_id.data)
+        game = db.session.execute(db.select(Games).filter_by(id = game_id)).scalar()
+
+        if game is not None:
+            my_user = db.session.execute(db.select(Users).filter_by(id=current_user.id)).scalar()
+            my_user.games.append(game)
+            db.session.commit()
+            flash('Game added to your account.')
+        else:
+            abort(400, 'Game not Found.')
+    
+    return redirect(url_for('webui.games'))
 
 
 # AUTHENTIFICATION
