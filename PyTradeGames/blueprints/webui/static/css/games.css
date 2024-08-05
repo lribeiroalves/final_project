@@ -1,6 +1,7 @@
 .game-table {
     max-height: 800px;
-    overflow: auto;
+    max-width: 100vw;
+    overflow-y: auto;
 }
 
 .search-input {
