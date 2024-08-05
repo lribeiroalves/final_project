@@ -3,12 +3,13 @@
 {% block title %}Add Games{% endblock %}
 
 {% block link_css %}
-    <link rel="stylesheet" href="{{url_for('static', filename='css/profile.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/content.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/games.css')}}">
 {% endblock %}
 
 {% block nav_home %}white{% endblock %}
 {% block nav_users %}white{% endblock %}
-{% block nav_games %}white{% endblock %}
+{% block nav_games %}secondary{% endblock %}
 
 {% block main %}
     <div class="container-md">
@@ -22,14 +23,14 @@
         </div>
         <div class="row">
             {% if games %}
-                <div class="container-fluid px-5">
+                <div class="container-fluid px-5 game-table">
                     <table class="table table-hover mt-2 table-bordered table-light text-center">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Genre</th>
-                                <th scope="col">Console</th>
+                                <th scope="col"><input type="text" class="search-input" placeholder="Search: Name"></th>
+                                <th scope="col"><input type="text" class="search-input" placeholder="Search: Genre"></th>
+                                <th scope="col"><input type="text" class="search-input" placeholder="Search: Console"></th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -53,4 +54,35 @@
             {% endif %}
         </div>
     </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".search-input").forEach(inputField=> {
+                const tableRows = inputField.closest("table").querySelectorAll("tbody tr");
+                const headerCell = inputField.closest("th");
+                const otherHeaderCells = inputField.closest("tr").querySelectorAll("th");
+                const columnIndex = Array.from(otherHeaderCells).indexOf(headerCell);
+                const searchableCells = Array.from(tableRows)
+                    .map(row => row.querySelectorAll("td")[columnIndex-1]);
+                
+                inputField.addEventListener("input", () => {
+                    const searchQuery = inputField.value.toLowerCase();
+
+                    for (const tableCell of searchableCells) {
+                        const row = tableCell.closest("tr");
+                        const value = tableCell.textContent
+                            .toLowerCase();
+                        
+                        row.style.visibility = null;
+
+                        if (value.search(searchQuery) === -1) {
+                            row.style.visibility = "collapse";
+                        }
+                    }
+                })
+            })
+        })
+    </script>
 {% endblock %}
