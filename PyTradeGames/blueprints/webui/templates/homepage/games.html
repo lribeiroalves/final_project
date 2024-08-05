@@ -1,0 +1,56 @@
+{%  extends "layout.html" %}
+
+{% block title %}Add Games{% endblock %}
+
+{% block link_css %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/profile.css')}}">
+{% endblock %}
+
+{% block nav_home %}white{% endblock %}
+{% block nav_users %}white{% endblock %}
+{% block nav_games %}white{% endblock %}
+
+{% block main %}
+    <div class="container-md">
+        <div class="row mt-5 mb-2">
+            <h1 class="headers">
+                Games
+            </h1>
+        </div>
+        <div class="row">
+            <p class="headers">To add a game to your collection, you must be logged in, then search for a game on the table below and click on the + icon.</p>
+        </div>
+        <div class="row">
+            {% if games %}
+                <div class="container-fluid px-5">
+                    <table class="table table-hover mt-2 table-bordered table-light text-center">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Genre</th>
+                                <th scope="col">Console</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            {% for game in games %}
+                                <tr>
+                                    <th scope="row">{{loop.index}}</th>
+                                    <td>{{game.name}}</td>
+                                    <td>{% for genre in game.genres %}{{genre.genre}}{% if not loop.last %}; {% endif %}{% endfor %}</td>
+                                    <td>{% for console in game.consoles %}{{console.name}}{% if not loop.last %}; {% endif %}{% endfor %}</td>
+                                    <td><button class="btn btn-warning">+</button></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="mt-2 px-4">
+                    0 games found.
+                </p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

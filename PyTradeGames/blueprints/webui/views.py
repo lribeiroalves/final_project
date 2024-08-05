@@ -21,9 +21,9 @@ def profile():
     return render_template('homepage/profile.html')
 
 
-@login_required
-def add_game():
-    return render_template('homepage/add_game.html')
+def add_games():
+    games = db.session.execute(db.select(Games)).scalars()
+    return render_template('homepage/games.html', games = games)
 
 
 # AUTHENTIFICATION

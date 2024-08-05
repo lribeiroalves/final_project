@@ -3,7 +3,7 @@
 {% block title %}{{ current_user.username }}{% endblock %}
 
 {% block link_css %}
-<link rel="stylesheet" href="{{url_for('static', filename='css/profile.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/profile.css')}}">
 {% endblock %}
 
 {% block nav_home %}white{% endblock %}
@@ -34,7 +34,7 @@
             {% with games = current_user.games %}
                 {% if games %}
                     <div class="container-fluid px-5">
-                        <table class="table table-hover mt-2">
+                        <table class="table table-hover mt-2 text-center">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -50,7 +50,6 @@
                                         <td>{{game.name}}</td>
                                         <td>{% for genre in game.genres %}{{genre.genre}}{% if not loop.last %}; {% endif %}{% endfor %}</td>
                                         <td>{% for console in game.consoles %}{{console.name}}{% if not loop.last %}; {% endif %}{% endfor %}</td>
-                                        <td></td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
@@ -63,7 +62,7 @@
                 {% endif %}
             {% endwith %}
             <div class="container-fluid text-center my-3">
-                <button type="button" class="btn btn-warning btn-lg">Add More Games</button>
+                <a href="{{url_for('webui.add_games')}}"><button type="button" class="btn btn-warning btn-lg">Add More Games</button></a>
             </div>
         </div>
         <div class="row mt-5">
