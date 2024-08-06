@@ -39,9 +39,16 @@ def add_game():
 
         if game is not None:
             my_user = db.session.execute(db.select(Users).filter_by(id=current_user.id)).scalar()
-            my_user.games.append(game)
+            if form.action.data == 'add':
+                my_user.games.append(game)
+                flash('Game added to your account.')
+            elif form.action.data == 'del':
+                index = my_user.games.index(game)
+                my_user.games.pop(index)
+                flash('Game exclude from your account.')
+            else:
+                abort(400, 'Action not allowed.')
             db.session.commit()
-            flash('Game added to your account.')
         else:
             abort(400, 'Game not Found.')
 
