@@ -70,9 +70,13 @@
                                     <td>{% for console in game.consoles %}{{console.name}}{% if not loop.last %}; {% endif %}{% endfor %}</td>
                                     {% if current_user.is_authenticated %}
                                         {% if game not in current_user.games %}
-                                            <td><button class="btn btn-warning w-50" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-bs-id="{{game.id}}" data-bs-name="{{game.name}}" data-bs-action="add">+</button></td>
+                                            <td>
+                                                <button class="btn btn-warning w-100 button-action" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-bs-id="{{game.id}}" data-bs-name="{{game.name}}" data-bs-action="add">Add</button>
+                                            </td>
                                         {% else %}
-                                            <td><button class="btn btn-danger w-50" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-bs-id="{{game.id}}" data-bs-name="{{game.name}}" data-bs-action="exclude">-</button></td>
+                                            <td>
+                                                <button class="btn btn-danger w-100 button-action" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-bs-id="{{game.id}}" data-bs-name="{{game.name}}" data-bs-action="exclude">Del</button>
+                                            </td>
                                         {% endif %}
                                     {% endif %}
                                 </tr>

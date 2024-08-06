@@ -8,3 +8,8 @@
     background-color: rgba(0, 0, 0, 0);
     border: none;
 }
+
+.button-action {
+    font-family: "Concert One", sans-serif;
+    font-style: normal;
+}
