@@ -17,20 +17,21 @@
         <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="confirmationModalLabel">Add Game</h1>
+                    <h1 class="modal-title fs-5" id="confirmationModalLabel">Are you sure you want to add this game?</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{url_for('webui.add_game')}}" method="post">
+                    <form id="addGame" action="{{url_for('webui.add_game')}}" method="post">
                         {{ form.csrf_token }}
-                        {{ form.game_id(value="1") }}
+                        {{ form.game_id(id="modal-field-id") }}
+                        {{ form.action(id="modal-field-action") }}
                         {{ form.game.label }}
-                        {{ form.game(class="form-control", disabled=True, value="Teste") }}
+                        {{ form.game(id="modal-field-game", class="form-control", readonly=True) }}
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                <div class="modal-footer justify-content-between px-5">
+                    <button type="button" class="btn btn-danger w-25" data-bs-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-primary w-25" form="addGame">Yes</button>
                 </div>
             </div>
         </div>
@@ -69,9 +70,9 @@
                                     <td>{% for console in game.consoles %}{{console.name}}{% if not loop.last %}; {% endif %}{% endfor %}</td>
                                     {% if current_user.is_authenticated %}
                                         {% if game not in current_user.games %}
-                                            <td><button class="btn btn-warning w-50" data-bs-toggle="modal" data-bs-target="#confirmationModal">+</button></td>
+                                            <td><button class="btn btn-warning w-50" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-bs-id="{{game.id}}" data-bs-name="{{game.name}}" data-bs-action="add">+</button></td>
                                         {% else %}
-                                            <td><button class="btn btn-danger w-50" data-bs-toggle="modal" data-bs-target="#confirmationModal">-</button></td>
+                                            <td><button class="btn btn-danger w-50" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-bs-id="{{game.id}}" data-bs-name="{{game.name}}" data-bs-action="exclude">-</button></td>
                                         {% endif %}
                                     {% endif %}
                                 </tr>
@@ -89,32 +90,6 @@
 {% endblock %}
 
 {% block js %}
-    <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", () => {
-            document.querySelectorAll(".search-input").forEach(inputField=> {
-                const tableRows = inputField.closest("table").querySelectorAll("tbody tr");
-                const headerCell = inputField.closest("th");
-                const otherHeaderCells = inputField.closest("tr").querySelectorAll("th");
-                const columnIndex = Array.from(otherHeaderCells).indexOf(headerCell);
-                const searchableCells = Array.from(tableRows)
-                    .map(row => row.querySelectorAll("td")[columnIndex-1]);
-                
-                inputField.addEventListener("input", () => {
-                    const searchQuery = inputField.value.toLowerCase();
-
-                    for (const tableCell of searchableCells) {
-                        const row = tableCell.closest("tr");
-                        const value = tableCell.textContent
-                            .toLowerCase();
-                        
-                        row.style.visibility = null;
-
-                        if (value.search(searchQuery) === -1) {
-                            row.style.visibility = "collapse";
-                        }
-                    }
-                })
-            })
-        })
-    </script>
+    <script src="{{url_for('static', filename='js/searchableFields.js')}}"></script>
+    <script src="{{url_for('static', filename='js/dynamicModal.js')}}"></script>
 {% endblock %}

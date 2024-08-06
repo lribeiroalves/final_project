@@ -31,6 +31,7 @@ def games():
 @login_required
 def add_game():
     form = AddGameForm()
+    games = db.session.execute(db.select(Games)).scalars()
 
     if form.validate_on_submit():
         game_id = int(form.game_id.data)
@@ -43,8 +44,8 @@ def add_game():
             flash('Game added to your account.')
         else:
             abort(400, 'Game not Found.')
-    
-    return redirect(url_for('webui.games'))
+
+    return render_template('homepage/games.html', games=games, form=form)
 
 
 # AUTHENTIFICATION

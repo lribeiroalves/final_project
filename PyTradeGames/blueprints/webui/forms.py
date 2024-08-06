@@ -95,3 +95,4 @@ class RegisterForm(FlaskForm):
 class AddGameForm(FlaskForm):
     game_id = HiddenField('game_id', validators=[DataRequired()])
     game = StringField('Game', validators=[DataRequired()])
+    action = HiddenField('action', validators=[DataRequired()])
