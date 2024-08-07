@@ -1,0 +1,91 @@
+{%  extends "layout.html" %}
+
+{% block title %}{{ current_user.username }}{% endblock %}
+
+{% block link_css %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/content.css')}}">
+{% endblock %}
+
+{% block nav_home %}white{% endblock %}
+{% block nav_users %}white{% endblock %}
+{% block nav_games %}white{% endblock %}
+
+{% block main %}
+    <div class="container-md">
+        <div class="row mt-5 mb-2">
+            <h1 class="headers">
+                {{current_user.username}}
+            </h1>
+        </div>
+        <div class="row">
+            <h6 class="headers header-since">
+                Since {{current_user.since.date()}}
+            </h6>
+        </div>
+        <div class="row">
+            <h5 class="headers header-reviews">
+                Reviews (quant)
+            </h5>
+        </div>
+        <div class="row mt-5">
+            <h3 class="headers">
+                Games
+            </h3>
+            {% with games = current_user.games %}
+                {% if games %}
+                    <div class="container-fluid px-5">
+                        <table class="table table-hover mt-2 text-center">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Genre</th>
+                                    <th scope="col">Console</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+                                {% for game in games %}
+                                    <tr>
+                                        <th scope="row">{{loop.index}}</th>
+                                        <td>{{game.name}}</td>
+                                        <td>{% for genre in game.genres %}{{genre.genre}}{% if not loop.last %}; {% endif %}{% endfor %}</td>
+                                        <td>{% for console in game.consoles %}{{console.name}}{% if not loop.last %}; {% endif %}{% endfor %}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="mt-2 px-4">
+                        0 games found.
+                    </p>
+                {% endif %}
+            {% endwith %}
+            <div class="container-fluid text-center my-3">
+                <a href="{{url_for('webui.games')}}"><button type="button" class="btn btn-warning btn-lg">Add More Games</button></a>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="container-fluid">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <button class="nav-link active headers" id="nav-messages-tab" data-bs-toggle="tab"    data-bs-target="#nav-messages" type="button" role="tab" aria-controls="nav-messages"   aria-selected="true">Messages</button>
+                        <button class="nav-link headers" id="nav-reviews-tab" data-bs-toggle="tab"    data-bs-target="#nav-reviews" type="button" role="tab" aria-controls="nav-reviews"     aria-selected="false">Reviews</button>
+                        <button class="nav-link headers" id="nav-trades-tab" data-bs-toggle="tab"    data-bs-target="#nav-trades" type="button" role="tab" aria-controls="nav-trades"     aria-selected="false">Trades</button>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-messages" role="tabpanel" aria-labelledby="nav-messages-tab" tabindex="0">
+                        Message 1
+                    </div>
+                    <div class="tab-pane fade" id="nav-reviews" role="tabpanel" aria-labelledby="nav-reviews-tab" tabindex="0">
+                        Review 1
+                    </div>
+                    <div class="tab-pane fade" id="nav-trades" role="tabpanel" aria-labelledby="nav-trades-tab" tabindex="0">
+                        Trade 1
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

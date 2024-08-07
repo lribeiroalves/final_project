@@ -1,0 +1,15 @@
+.game-table {
+    max-height: 800px;
+    max-width: 100vw;
+    overflow-y: auto;
+}
+
+.search-input {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+}
+
+.button-action {
+    font-family: "Concert One", sans-serif;
+    font-style: normal;
+}

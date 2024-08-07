@@ -1,0 +1,17 @@
+.headers {
+    font-family: "Chakra Petch", sans-serif;
+    color: black;
+}
+
+.header-since {
+    font-style: italic;
+    font-size: calc(0.5rem + 0.2vw);
+}
+
+.header-reviews {
+    font-size: calc(0.8rem + 0.3vw);
+}
+
+table tr td, table tr th{
+    background-color: rgba(0, 0, 0, 0) !important;
+}

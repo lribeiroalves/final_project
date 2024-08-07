@@ -28,10 +28,9 @@
                         </a>
             
                         <ul class="nav col-12 col-sm-auto me-lg-auto mb-2 justify-content-center mb-md-0" style="padding-left: 40px;">
-                            <li><a href="{{url_for('webui.index')}}" class="nav-link px-2 text-secondary">Home</a></li> <!-- Tela inicial -->
-                            <li><a href="#" class="nav-link px-2 text-white">Users</a></li> <!-- Tela para exibir os outros usuários e seus jogos e iniciar intenções de troca -->
-                            <li><a href="#" class="nav-link px-2 text-white">Games</a></li> <!-- Tela para cadastrar novos jogos para o próprio usuário -->
-                            <li><a href="#" class="nav-link px-2 text-white">Messages</a></li> <!-- Tela para cadastrar novos jogos para o próprio usuário -->
+                            <li><a href="{{url_for('webui.index')}}" class="nav-link px-2 text-{% block nav_home %}{% endblock %}">Home</a></li> <!-- Tela inicial -->
+                            <li><a href="#" class="nav-link px-2 text-{% block nav_users %}{% endblock %}">Users</a></li> <!-- Tela para exibir os outros usuários e seus jogos e iniciar intenções de troca -->
+                            <li><a href="{{url_for('webui.games')}}" class="nav-link px-2 text-{% block nav_games %}{% endblock %}">Games</a></li> <!-- Tela para cadastrar novos jogos para o próprio usuário -->
                         </ul>
                         
                         {% if not current_user.is_authenticated %}
@@ -41,7 +40,7 @@
                             </div>
                         {% else %}
                             <div class="text-end">
-                                <a href="#"><button type="button" class="btn btn-outline-warning">{{current_user.username}}</button></a>
+                                <a href="{{url_for('webui.profile')}}"><button type="button" class="btn btn-outline-warning">{{current_user.username}}</button></a>
                                 <a href="{{url_for('webui.logout')}}"><button type="button" class="btn btn-warning me-2">Logout</button></a>
                             </div>
                         {% endif %}

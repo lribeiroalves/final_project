@@ -1,20 +1,77 @@
 """Creation of the views to registered on the webui blueprint"""
 
-from flask import render_template, flash, redirect, url_for, request
-from flask_login import login_user, logout_user, current_user
+from flask import render_template, flash, redirect, url_for, request, abort
+from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from .forms import LoginForm, RegisterForm, AddGameForm
+
 from PyTradeGames.ext.database import db
-from PyTradeGames.ext.database.models import Users
-
-from .forms import LoginForm, RegisterForm
+from PyTradeGames.ext.database.models import *
 
 
+# HOMEPAGE
 def index():
     return render_template('homepage/index.html')
 
 
+# USER INTERFACE
+@login_required
+def profile():
+    return render_template('homepage/profile.html')
+
+
+def games():
+    form = AddGameForm()
+    games = db.session.execute(db.select(Games)).scalars()
+
+    return render_template('homepage/games.html', games=games, form=form)
+
+
+@login_required
+def add_game():
+    form = AddGameForm()
+    games = db.session.execute(db.select(Games)).scalars()
+
+    if form.validate_on_submit():
+        game_id = int(form.game_id.data)
+        game = db.session.execute(db.select(Games).filter_by(id = game_id)).scalar()
+
+        if game is not None:
+            my_user = db.session.execute(db.select(Users).filter_by(id=current_user.id)).scalar()
+            
+            try:
+                index = my_user.games.index(game)
+            except ValueError:
+                index = -1
+
+            if form.action.data == 'add':
+                if index < 0:
+                    my_user.games.append(game)
+                    flash('Game added to your account.')
+                else:
+                    flash('The current user already has the selected game.')
+            elif form.action.data == 'del':
+                if index >= 0:
+                    my_user.games.pop(index)
+                    flash('Game exclude from your account.')
+                else:
+                    flash("The current user doesn't have the selected game. Therefore, is not possible to exclude it.")
+            else:
+                flash('Action not allowed.')
+            db.session.commit()
+        else:
+            flash('Game Id has not been found.')
+
+    return render_template('homepage/games.html', games=games, form=form)
+
+
+# AUTHENTIFICATION
 def login():
+    if current_user.is_authenticated:
+        flash('User already autenticated.')
+        return redirect(url_for('webui.index'))
+
     form = LoginForm()
     
     if form.validate_on_submit():
@@ -35,6 +92,7 @@ def login():
     return render_template('auth/login.html', form=form, next=next)
 
 
+@login_required
 def logout():
     if current_user.is_authenticated:
         logout_user()
@@ -44,6 +102,10 @@ def logout():
 
 
 def register():
+    if current_user.is_authenticated:
+        flash('User already autenticated.')
+        return redirect(url_for('webui.index'))
+
     form = RegisterForm()
     
     if form.validate_on_submit():
