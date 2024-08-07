@@ -1,0 +1,111 @@
+{%  extends "layout.html" %}
+
+{% block title %}Users{% endblock %}
+
+{% block link_css %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/content.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/users.css')}}">
+{% endblock %}
+
+{% block nav_home %}white{% endblock %}
+{% block nav_users %}secondary{% endblock %}
+{% block nav_games %}white{% endblock %}
+
+{% block main %}
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="confirmationModalLabel">Are you sure you want to add this game?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addGame" action="{{url_for('webui.add_game')}}" method="post">
+                        {{ form.csrf_token }}
+                        {{ form.game_id(id="modal-field-id") }}
+                        {{ form.action(id="modal-field-action") }}
+                        {{ form.game.label }}
+                        {{ form.game(id="modal-field-game", class="form-control", readonly=True) }}
+                    </form>
+                </div>
+                <div class="modal-footer justify-content-between px-5">
+                    <button type="button" class="btn btn-danger w-25" data-bs-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-primary w-25" form="addGame">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-md">
+        <div class="row mt-5 mb-2">
+            <h1 class="headers">
+                Users
+            </h1>
+        </div>
+        <div class="row">
+            <p class="headers w-75">Search for users who have the games you are looking for, and start a conversation using the message icon.</p>
+        </div>
+        <div class="row">
+            {% if users %}
+                <div class="container-fluid px-5 game-table">
+                    <table class="table table-hover mt-2 table-bordered text-center table-responsive">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col"><input type="text" class="search-input" placeholder="Search: Username"></th>
+                                <th scope="col">Registered Since</th>
+                                <th scope="col"><input type="text" class="search-input" placeholder="Search: Games"></th>
+                                <th scope="col">Reviews</th>
+                                {% if current_user.is_authenticated %}
+                                    <th scope="col">Messages</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            {% for user in users %}
+                                {% if user.username != "admin" %}
+                                    <tr>
+                                        <th scope="row" class="tableRows">{{loop.index - 1}}</th>
+                                        <td>{{user.username}}</td>
+                                        <td>{{user.since.date()}}</td>
+                                        <td>
+                                            {% if user.games %}
+                                                {% for game in user.games %}
+                                                    {{game.name}}{% if not loop.last %}<br>{% endif %}
+                                                {% endfor %}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </td>
+                                        <td>reviews</td>
+                                        {% if current_user.is_authenticated %}
+                                            {% if user.id != current_user.id %}
+                                                <td>
+                                                    <button class="btn btn-warning w-100 button-action" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-bs-id="{{user.id}}" data-bs-name="{{user.username}}" data-bs-action="add">Message</button>
+                                                </td>
+                                            {% else %}
+                                                <td>
+                                                    -
+                                                </td>
+                                            {% endif %}
+                                        {% endif %}
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="mt-2 px-4">
+                    No users found.
+                </p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{url_for('static', filename='js/searchableFields.js')}}"></script>
+    <script src="{{url_for('static', filename='js/dynamicModal.js')}}"></script>
+{% endblock %}

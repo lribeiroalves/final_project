@@ -66,6 +66,13 @@ def add_game():
     return render_template('homepage/games.html', games=games, form=form)
 
 
+def users():
+    form = AddGameForm()
+    users = db.session.execute(db.select(Users)).scalars()
+
+    return render_template('homepage/users.html', users=users, form=form)
+
+
 # AUTHENTIFICATION
 def login():
     if current_user.is_authenticated:
