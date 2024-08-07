@@ -125,8 +125,12 @@ class Trades(db.Model):
     # relations
     start_user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
     start_user:Mapped['Users'] = relationship(foreign_keys=[start_user_id])
+    start_game_id:Mapped[int] = mapped_column(ForeignKey('games.id'))
+    start_game:Mapped['Games'] = relationship(foreign_keys=[start_game_id])
     end_user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
     end_user:Mapped['Users'] = relationship(foreign_keys=[end_user_id])
+    end_game_id:Mapped[int] = mapped_column(ForeignKey('games.id'))
+    end_game:Mapped['Games'] = relationship(foreign_keys=[end_game_id])
 
     def __repr__(self) -> str:
         return f'Trade(status={self.status}, start_user={self.start_user}, end_user={self.end_user}, initial_datetime={self.initial_datetime})'
