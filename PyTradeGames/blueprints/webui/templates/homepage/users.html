@@ -44,7 +44,7 @@
             </h1>
         </div>
         <div class="row">
-            <p class="headers w-75">Search for users who have the games you are looking for, and start a conversation using the message icon.</p>
+            <p class="headers w-75">After log in, search for users who have the games you are looking for, and start a conversation using the Start Trade icon.</p>
         </div>
         <div class="row">
             {% if users %}
@@ -58,7 +58,7 @@
                                 <th scope="col"><input type="text" class="search-input" placeholder="Search: Games"></th>
                                 <th scope="col">Reviews</th>
                                 {% if current_user.is_authenticated %}
-                                    <th scope="col">Messages</th>
+                                    <th scope="col">Action</th>
                                 {% endif %}
                             </tr>
                         </thead>
@@ -82,7 +82,7 @@
                                         {% if current_user.is_authenticated %}
                                             {% if user.id != current_user.id %}
                                                 <td>
-                                                    <button class="btn btn-warning w-100 button-action" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-bs-id="{{user.id}}" data-bs-name="{{user.username}}" data-bs-action="add">Message</button>
+                                                    <button class="btn btn-warning w-100 button-action" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-bs-id="{{user.id}}" data-bs-name="{{user.username}}" data-bs-action="add">Start Trade</button>
                                                 </td>
                                             {% else %}
                                                 <td>
