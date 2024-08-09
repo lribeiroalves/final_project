@@ -31,7 +31,7 @@
                         <div class="row container-fluid justify-content-between">
                             <div id="start-user" class="col container-fluid w-25">
                                 <input type="text" name="start_user_input" id="start_user_input" class="mb-3 form-control" readonly value = "{{current_user.username}}">
-                                <select required class="form-control" name="start_game_input" id="start_game_input">
+                                <select required class="form-select" name="start_game_input" id="start_game_input">
                                     <option value=""></option>
                                     {% for game in current_user.games %}
                                         <option value="{{game.id}}">{{game.name}}</option>
@@ -40,7 +40,7 @@
                             </div>
                             <div id="end-user" class="col container-fluid w-25">
                                 <input type="text" name="end_user_input" id="end_user_input" class="mb-3 form-control" readonly>
-                                <select required class="form-control" name="end_game_input" id="end_game_input">
+                                <select required class="form-select" name="end_game_input" id="end_game_input">
                                     <option value=""></option>
                                 </select>
                             </div>
