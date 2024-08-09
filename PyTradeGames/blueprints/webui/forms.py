@@ -96,3 +96,9 @@ class AddGameForm(FlaskForm):
     game_id = HiddenField('game_id', validators=[DataRequired()])
     game = StringField('Game', validators=[DataRequired()])
     action = HiddenField('action', validators=[DataRequired()])
+
+
+class StartTradeForm(FlaskForm):
+    start_game = IntegerField('Your Game', validators=[DataRequired()])
+    end_user = IntegerField('Username', validators=[DataRequired()])
+    end_game = IntegerField('Choose a game', validators=[DataRequired()])

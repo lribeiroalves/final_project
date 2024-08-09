@@ -17,21 +17,20 @@
         <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="confirmationModalLabel">Are you sure you want to add this game?</h1>
+                    <h1 class="modal-title fs-5" id="confirmationModalLabel">Choose the games and start the trade.</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="addGame" action="{{url_for('webui.add_game')}}" method="post">
                         {{ form.csrf_token }}
                         {{ form.game_id(id="modal-field-id") }}
-                        {{ form.action(id="modal-field-action") }}
                         {{ form.game.label }}
                         {{ form.game(id="modal-field-game", class="form-control", readonly=True) }}
                     </form>
                 </div>
                 <div class="modal-footer justify-content-between px-5">
-                    <button type="button" class="btn btn-danger w-25" data-bs-dismiss="modal">No</button>
-                    <button type="submit" class="btn btn-primary w-25" form="addGame">Yes</button>
+                    <button type="button" class="btn btn-danger w-25" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary w-25" form="addGame">Trade</button>
                 </div>
             </div>
         </div>
@@ -82,7 +81,7 @@
                                         {% if current_user.is_authenticated %}
                                             {% if user.id != current_user.id %}
                                                 <td>
-                                                    <button class="btn btn-warning w-100 button-action" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-bs-id="{{user.id}}" data-bs-name="{{user.username}}" data-bs-action="add">Start Trade</button>
+                                                    <button class="btn btn-warning w-100 button-action" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-bs-id="{{user.id}}" data-bs-name="{{user.username}}" data-bs-games="{% for game in user.games %}{{game.id}},{{game.name}}{% if not loop.last %};{% endif %}{% endfor %}">Start Trade</button>
                                                 </td>
                                             {% else %}
                                                 <td>

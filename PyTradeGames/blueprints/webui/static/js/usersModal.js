@@ -9,17 +9,19 @@ if (modal) {
         // Button that triggered the modal
         const button = event.relatedTarget;
         // Extract information from button
-        const id = button.getAttribute('data-bs-id')
-        const name = button.getAttribute('data-bs-name')
-        const action = button.getAttribute('data-bs-action')
+        const id = button.getAttribute('data-bs-id');
+        const name = button.getAttribute('data-bs-name');
+        const options = button.getAttribute('data-bs-games').split(';').map(games => games.split(','))
+
+        for (const option of options) {
+            console.log(option)
+        }
 
         // Update the modal's content
-        const idField = document.getElementById('modal-field-id')
-        const gameField = document.getElementById('modal-field-game')
-        const actionField = document.getElementById('modal-field-action')
+        const idField = document.getElementById('modal-field-id');
+        const gameField = document.getElementById('modal-field-game');
 
-        idField.value = id
-        gameField.value = name
-        actionField.value = action
+        idField.value = id;
+        gameField.value = name;
     })
 }
