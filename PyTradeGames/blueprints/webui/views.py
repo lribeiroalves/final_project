@@ -54,7 +54,7 @@ def add_game():
             elif form.action.data == 'del':
                 if index >= 0:
                     my_user.games.pop(index)
-                    flash('Game exclude from your account.')
+                    flash('Game removed from your account.')
                 else:
                     flash("The current user doesn't have the selected game. Therefore, is not possible to exclude it.")
             else:

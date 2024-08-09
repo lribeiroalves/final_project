@@ -17,7 +17,7 @@
         <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="confirmationModalLabel">Are you sure you want to add this game?</h1>
+                    <h1 class="modal-title fs-5" id="confirmationModalLabel">Are you sure you want to <span id="modal-action-title"></span> this game?</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -25,7 +25,7 @@
                         {{ form.csrf_token }}
                         {{ form.game_id(id="modal-field-id") }}
                         {{ form.action(id="modal-field-action") }}
-                        {{ form.game.label }}
+                        {{ form.game.label(for="modal-field-game") }}
                         {{ form.game(id="modal-field-game", class="form-control", readonly=True) }}
                     </form>
                 </div>
@@ -53,9 +53,9 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col"><input type="text" class="search-input" placeholder="Search: Name"></th>
-                                <th scope="col"><input type="text" class="search-input" placeholder="Search: Genre"></th>
-                                <th scope="col"><input type="text" class="search-input" placeholder="Search: Console"></th>
+                                <th scope="col"><input id="name-input" type="text" class="search-input" placeholder="Search: Name"></th>
+                                <th scope="col"><input id="genre-input" type="text" class="search-input" placeholder="Search: Genre"></th>
+                                <th scope="col"><input id="console-input" type="text" class="search-input" placeholder="Search: Console"></th>
                                 {% if current_user.is_authenticated %}
                                     <th scope="col">Action</th>
                                 {% endif %}
@@ -95,5 +95,5 @@
 
 {% block js %}
     <script src="{{url_for('static', filename='js/searchableFields.js')}}"></script>
-    <script src="{{url_for('static', filename='js/dynamicModal.js')}}"></script>
+    <script src="{{url_for('static', filename='js/gamesModal.js')}}"></script>
 {% endblock %}
