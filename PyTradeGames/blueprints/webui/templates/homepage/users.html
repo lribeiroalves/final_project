@@ -21,11 +21,30 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="addGame" action="{{url_for('webui.add_game')}}" method="post">
+                    <form id="addGame" action="{{url_for('webui.start_trade')}}" method="post">
                         {{ form.csrf_token }}
-                        {{ form.game_id(id="modal-field-id") }}
-                        {{ form.game.label }}
-                        {{ form.game(id="modal-field-game", class="form-control", readonly=True) }}
+                        {{ form.start_user }}
+                        {{ form.start_game }}
+                        {{ form.end_user }}
+                        {{ form.end_game }}
+
+                        <div class="row container-fluid justify-content-between">
+                            <div id="start-user" class="col container-fluid w-25">
+                                <input type="text" name="start_user_input" id="start_user_input" class="mb-3 form-control" readonly value = "{{current_user.username}}">
+                                <select required class="form-control" name="start_game_input" id="start_game_input">
+                                    <option value=""></option>
+                                    {% for game in current_user.games %}
+                                        <option value="{{game.id}}">{{game.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div id="end-user" class="col container-fluid w-25">
+                                <input type="text" name="end_user_input" id="end_user_input" class="mb-3 form-control" readonly>
+                                <select required class="form-control" name="end_game_input" id="end_game_input">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer justify-content-between px-5">
@@ -52,9 +71,9 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col"><input type="text" class="search-input" placeholder="Search: Username"></th>
+                                <th scope="col"><input id="username-input" type="text" class="search-input" placeholder="Search: Username"></th>
                                 <th scope="col">Registered Since</th>
-                                <th scope="col"><input type="text" class="search-input" placeholder="Search: Games"></th>
+                                <th scope="col"><input id="games-input" type="text" class="search-input" placeholder="Search: Games"></th>
                                 <th scope="col">Reviews</th>
                                 {% if current_user.is_authenticated %}
                                     <th scope="col">Action</th>
@@ -81,7 +100,7 @@
                                         {% if current_user.is_authenticated %}
                                             {% if user.id != current_user.id %}
                                                 <td>
-                                                    <button class="btn btn-warning w-100 button-action" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-bs-id="{{user.id}}" data-bs-name="{{user.username}}" data-bs-games="{% for game in user.games %}{{game.id}},{{game.name}}{% if not loop.last %};{% endif %}{% endfor %}">Start Trade</button>
+                                                    <button class="btn btn-warning w-100 button-action" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-bs-id="{{user.id}}" data-bs-name="{{user.username}}" data-bs-myuser="{{current_user.id}}" data-bs-games="{% for game in user.games %}{{game.id}},{{game.name}}{% if not loop.last %};{% endif %}{% endfor %}">Start Trade</button>
                                                 </td>
                                             {% else %}
                                                 <td>

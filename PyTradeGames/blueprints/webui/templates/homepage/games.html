@@ -23,7 +23,7 @@
                 <div class="modal-body">
                     <form id="addGame" action="{{url_for('webui.add_game')}}" method="post">
                         {{ form.csrf_token }}
-                        {{ form.game_id(id="modal-field-id") }}
+                        {{ form.game_id(id="modal-field-id", value="2") }}
                         {{ form.action(id="modal-field-action") }}
                         {{ form.game.label(for="modal-field-game") }}
                         {{ form.game(id="modal-field-game", class="form-control", readonly=True) }}

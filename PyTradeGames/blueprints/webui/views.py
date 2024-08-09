@@ -4,7 +4,7 @@ from flask import render_template, flash, redirect, url_for, request, abort
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from .forms import LoginForm, RegisterForm, AddGameForm
+from .forms import LoginForm, RegisterForm, AddGameForm, StartTradeForm
 
 from PyTradeGames.ext.database import db
 from PyTradeGames.ext.database.models import *
@@ -67,8 +67,21 @@ def add_game():
 
 
 def users():
-    form = AddGameForm()
+    form = StartTradeForm()
     users = db.session.execute(db.select(Users)).scalars()
+
+    return render_template('homepage/users.html', users=users, form=form)
+
+
+def start_trade():
+    form = StartTradeForm()
+    users = db.session.execute(db.select(Users)).scalars()
+
+    if form.validate_on_submit():
+        print(db.session.execute(db.select(Users).filter_by(id=int(form.start_user.data))).scalar())
+        print(db.session.execute(db.select(Games).filter_by(id = int(form.start_game.data))).scalar())
+        print(db.session.execute(db.select(Users).filter_by(id=int(form.end_user.data))).scalar())
+        print(db.session.execute(db.select(Games).filter_by(id = int(form.end_game.data))).scalar())
 
     return render_template('homepage/users.html', users=users, form=form)
 
