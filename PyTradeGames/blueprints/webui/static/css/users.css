@@ -17,3 +17,7 @@
 td, th.tableRows {
     vertical-align: middle;
 }
+
+button.modalButton {
+    width: 40% !important;
+}

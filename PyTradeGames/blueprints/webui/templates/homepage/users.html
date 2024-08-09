@@ -14,7 +14,7 @@
 {% block main %}
     <!-- Confirmation Modal -->
     <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="confirmationModalLabel">Choose the games and start the trade.</h1>
@@ -28,28 +28,40 @@
                         {{ form.end_user }}
                         {{ form.end_game }}
 
-                        <div class="row container-fluid justify-content-between">
-                            <div id="start-user" class="col container-fluid w-25">
-                                <input type="text" name="start_user_input" id="start_user_input" class="mb-3 form-control" readonly value = "{{current_user.username}}">
-                                <select required class="form-select" name="start_game_input" id="start_game_input">
-                                    <option value=""></option>
-                                    {% for game in current_user.games %}
-                                        <option value="{{game.id}}">{{game.name}}</option>
-                                    {% endfor %}
-                                </select>
+                        <div class="row container-fluid justify-content-evenly">
+                            <div id="start-user" class="col container-fluid">
+                                <div class="form-floating">
+                                    <input type="text" name="start_user_input" id="start_user_input" class="mb-3 form-control" readonly value = "{{current_user.username}}" style="font-weight: bold;">
+                                    <label for="start_user_input">From</label>
+                                </div>
+                                <div class="form-floating">
+                                    <select required class="form-select" name="start_game_input" id="start_game_input">
+                                        <option value=""></option>
+                                        {% for game in current_user.games %}
+                                            <option value="{{game.id}}">{{game.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <label for="start_game_input">Game Offer</label>
+                                </div>
                             </div>
-                            <div id="end-user" class="col container-fluid w-25">
-                                <input type="text" name="end_user_input" id="end_user_input" class="mb-3 form-control" readonly>
-                                <select required class="form-select" name="end_game_input" id="end_game_input">
-                                    <option value=""></option>
-                                </select>
+                            <div id="end-user" class="col container-fluid">
+                                <div class="form-floating">
+                                    <input type="text" name="end_user_input" id="end_user_input" class="mb-3 form-control" readonly style="font-weight: bold;">
+                                    <label for="end_user_input">To</label>
+                                </div>
+                                <div class="form-floating">
+                                    <select required class="form-select" name="end_game_input" id="end_game_input">
+                                        <option value=""></option>
+                                    </select>
+                                    <label for="end_game_input">Game Request</label>
+                                </div>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer justify-content-between px-5">
-                    <button type="button" class="btn btn-danger w-25" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary w-25" form="addGame">Trade</button>
+                    <button type="button" class="btn btn-danger w-auto modalButton" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary w-auto modalButton" form="addGame">Trade</button>
                 </div>
             </div>
         </div>
@@ -67,7 +79,7 @@
         <div class="row">
             {% if users %}
                 <div class="container-fluid px-5 game-table">
-                    <table class="table table-hover mt-2 table-bordered text-center table-responsive">
+                    <table class="table table-hover mt-2 mb-5 table-bordered text-center table-responsive shadow">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
