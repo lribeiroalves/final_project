@@ -90,7 +90,7 @@ class Consoles(db.Model):
 class Messages(db.Model):
     id:Mapped[int] = mapped_column(primary_key=True)
     content:Mapped[str] = mapped_column(String(255), nullable=False)
-    status:Mapped[bool] = mapped_column(nullable=False)
+    read:Mapped[bool] = mapped_column(nullable=False, default=0)
     date:Mapped[DateTime] = mapped_column(DateTime(timezone=True), nullable=False)
     
     # relations
@@ -98,8 +98,8 @@ class Messages(db.Model):
     from_user:Mapped['Users'] = relationship(foreign_keys=[from_user_id])
     to_user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
     to_user:Mapped['Users'] = relationship(foreign_keys=[to_user_id])
-    game_id:Mapped[int] = mapped_column(ForeignKey('games.id'))
-    game:Mapped['Games'] = relationship(foreign_keys=[game_id])
+    trade_id:Mapped[int] = mapped_column(ForeignKey('trades.id'))
+    trade:Mapped['Trades'] = relationship(foreign_keys=[trade_id])
     
 
 class Reviews(db.Model):

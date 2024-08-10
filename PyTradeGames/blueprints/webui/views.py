@@ -9,13 +9,15 @@ from .forms import LoginForm, RegisterForm, AddGameForm, StartTradeForm
 from PyTradeGames.ext.database import db
 from PyTradeGames.ext.database.models import *
 
+from datetime import datetime
 
-# HOMEPAGE
+
+# HOMEPAGE ---------------------------------------------------------------------------------------
 def index():
     return render_template('homepage/index.html')
 
 
-# USER INTERFACE
+# USER INTERFACE ---------------------------------------------------------------------------------------
 @login_required
 def profile():
     return render_template('homepage/profile.html')
@@ -78,16 +80,40 @@ def start_trade():
     users = db.session.execute(db.select(Users)).scalars()
 
     if form.validate_on_submit():
-        print(db.session.execute(db.select(Users).filter_by(id=int(form.start_user.data))).scalar())
-        print(db.session.execute(db.select(Games).filter_by(id = int(form.start_game.data))).scalar())
-        print(db.session.execute(db.select(Users).filter_by(id=int(form.end_user.data))).scalar())
-        print(db.session.execute(db.select(Games).filter_by(id = int(form.end_game.data))).scalar())
+        st_user = db.session.execute(db.select(Users).filter_by(id=int(form.start_user.data))).scalar()
+        ed_user = db.session.execute(db.select(Users).filter_by(id=int(form.end_user.data))).scalar()
+        st_game = db.session.execute(db.select(Games).filter_by(id=int(form.start_game.data))).scalar()
+        ed_game = db.session.execute(db.select(Games).filter_by(id=int(form.end_game.data))).scalar()
 
+        new_trade = Trades()
+        new_trade.status = 'open'
+        new_trade.initial_datetime = datetime.now()
+        new_trade.start_user = st_user
+        new_trade.start_game = st_game
+        new_trade.end_user = ed_user
+        new_trade.end_game = ed_game
+
+        db.session.add(new_trade)
+
+        new_msg = Messages()
+        new_msg.content = f'Hello {ed_user.username}, i would like to start a trade with you. I offer my {st_game.name} in exchange for your {ed_game.name}. Are you interested?'
+        new_msg.date = datetime.now()
+        new_msg.from_user = st_user
+        new_msg.to_user = ed_user
+        new_msg.trade = db.session.execute(db.select(Trades)).scalars().all()[-1]
+
+        db.session.add(new_msg)
+        
+        db.session.commit()
+
+        # create redirect for the specific trade page
+        # for this, search how to crate pages with tokens
         return redirect(url_for('webui.users'))
     else:
         return render_template('homepage/users.html', form=form, users=users)
 
-# AUTHENTIFICATION
+
+# AUTHENTIFICATION ---------------------------------------------------------------------------------------
 def login():
     if current_user.is_authenticated:
         flash('User already autenticated.')
