@@ -63,7 +63,7 @@ def add_game():
         else:
             flash('Game Id has not been found.')
 
-    return render_template('homepage/games.html', games=games, form=form)
+    return redirect(url_for('webui.games'))
 
 
 def users():
@@ -83,8 +83,9 @@ def start_trade():
         print(db.session.execute(db.select(Users).filter_by(id=int(form.end_user.data))).scalar())
         print(db.session.execute(db.select(Games).filter_by(id = int(form.end_game.data))).scalar())
 
-    return render_template('homepage/users.html', users=users, form=form)
-
+        return redirect(url_for('webui.users'))
+    else:
+        return render_template('homepage/users.html', form=form, users=users)
 
 # AUTHENTIFICATION
 def login():

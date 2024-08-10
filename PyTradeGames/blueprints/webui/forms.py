@@ -1,7 +1,9 @@
 """Creation of forms to be used on webui."""
 
+from flask_login import current_user
+
 from PyTradeGames.ext.database import db
-from PyTradeGames.ext.database.models import Users
+from PyTradeGames.ext.database.models import Users, Games
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, EmailField, HiddenField, IntegerField
@@ -78,6 +80,42 @@ def password_check():
     return _password_check
 
 
+def user_check(current=False):
+    """ Validation on the user provided by the form
+        Checks if the current_user matches the user provided
+        or if the user provided exists on database """
+    
+    def _user_check(form, field):
+        user_id = int(field.data)
+
+        if current:
+            if current_user.id != user_id:
+                raise ValidationError("User provided doesn't match the user currently logged in.")
+        else:
+            user = db.session.execute(db.select(Users).filter_by(id=user_id)).scalar()
+
+            if user is None:
+                raise ValidationError("User selected doesn't exist.")
+        
+    return _user_check
+
+
+def user_has_game_check(other_field):
+    """ Validation on the game provided by the form for the trade. """
+
+    def _user_has_game_check(form, field):
+        game = db.session.execute(db.select(Games).filter_by(id=int(field.data))).scalar()
+        user = db.session.execute(db.select(Users).filter_by(id=form[other_field].data)).scalar()
+
+        if game is None:
+            raise ValidationError("Selected Game doesn't exist.")
+
+        if user is None or game not in user.games:
+            raise ValidationError("The selected User doesn't have the selected game.")
+    
+    return _user_has_game_check
+
+
 # FORMS
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), user_exist()])
@@ -99,7 +137,7 @@ class AddGameForm(FlaskForm):
 
 
 class StartTradeForm(FlaskForm):
-    start_user = HiddenField('start_user_id', validators=[DataRequired()])
-    start_game = HiddenField('start_game_id', validators=[DataRequired()])
-    end_user = HiddenField('end_user_id', validators=[DataRequired()])
-    end_game = HiddenField('end_game_id', validators=[DataRequired()])
+    start_user = HiddenField('start_user_id', validators=[DataRequired(), user_check(current=True)])
+    start_game = HiddenField('start_game_id', validators=[DataRequired(), user_has_game_check(other_field='start_user')])
+    end_user = HiddenField('end_user_id', validators=[DataRequired(), user_check()])
+    end_game = HiddenField('end_game_id', validators=[DataRequired(), user_has_game_check(other_field='end_user')])

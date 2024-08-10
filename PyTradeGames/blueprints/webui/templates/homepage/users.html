@@ -67,6 +67,54 @@
         </div>
     </div>
 
+    <!-- Error Messages -->
+    {% if form.start_user.errors %}
+        <div class="alert p-0">{{ error }}
+            <ul class="list-group">
+                {% for error in form.start_user.errors %}
+                    <li class="list-group-item list-group-item-warning mt-1 mx-5">
+                        {{error}}
+                    </li>
+                {% endfor %}    
+            </ul>
+        </div>
+    {% endif %}
+    {% if form.start_game.errors %}
+        <div class="alert p-0">{{ error }}
+            <ul class="list-group">
+                {% for error in form.start_game.errors %}
+                    <li class="list-group-item list-group-item-warning mt-1 mx-5">
+                        {{error}}
+                    </li>
+                {% endfor %}    
+            </ul>
+        </div>
+    {% endif %}
+    {% if form.end_user.errors %}
+        <div class="alert p-0">{{ error }}
+            <ul class="list-group">
+                {% for error in form.end_user.errors %}
+                    <li class="list-group-item list-group-item-warning mt-1 mx-5">
+                        {{error}}
+                    </li>
+                {% endfor %}    
+            </ul>
+        </div>
+    {% endif %}
+    {% if form.end_game.errors %}
+        <div class="alert p-0">{{ error }}
+            <ul class="list-group">
+                {% for error in form.end_game.errors %}
+                    <li class="list-group-item list-group-item-warning mt-1 mx-5">
+                        {{error}}
+                    </li>
+                {% endfor %}    
+            </ul>
+        </div>
+    {% endif %}
+
+
+    <!-- CONTENT -->
     <div class="container-md">
         <div class="row mt-5 mb-2">
             <h1 class="headers">
