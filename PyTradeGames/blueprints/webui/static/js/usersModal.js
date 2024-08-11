@@ -23,20 +23,21 @@ if (modal) {
         const end_game = modal.querySelector('select#end_game_input');
         const end_game_id = modal.querySelector('input#end_game');
 
-        start_user_id.value = user_id
-        end_user.value = end_user_name
-        end_user_id.value = id        
+        start_user_id.value = user_id;
+        end_user.value = end_user_name;
+        end_user_id.value = id;
 
+        end_game.innerHTML = '<option value=""></option>';
         for (const opt of options) {
-            end_game.innerHTML += '<option value="' + opt[0] + '">' + opt[1] + '</option>'
+            end_game.innerHTML += '<option value="' + opt[0] + '">' + opt[1] + '</option>';
         }
 
         start_game.addEventListener('change', selection => {
-            start_game_id.value = selection.target.value
+            start_game_id.value = selection.target.value;
         })
 
         end_game.addEventListener('change', selection => {
-            end_game_id.value = selection.target.value
+            end_game_id.value = selection.target.value;
         })
     })
 }

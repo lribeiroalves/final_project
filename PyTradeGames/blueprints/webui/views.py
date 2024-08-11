@@ -75,6 +75,7 @@ def users():
     return render_template('homepage/users.html', users=users, form=form)
 
 
+@login_required
 def start_trade():
     form = StartTradeForm()
     users = db.session.execute(db.select(Users)).scalars()
@@ -103,14 +104,31 @@ def start_trade():
         new_msg.trade = db.session.execute(db.select(Trades)).scalars().all()[-1]
 
         db.session.add(new_msg)
+
+        trade_id = db.session.execute(db.select(Trades)).scalars().all()[-1].id
         
         db.session.commit()
-
-        # create redirect for the specific trade page
-        # for this, search how to crate pages with tokens
-        return redirect(url_for('webui.users'))
+        
+        flash('New trade created, wait for the other users answer.')
+        return redirect(url_for('webui.trade', trade_id=trade_id))
     else:
         return render_template('homepage/users.html', form=form, users=users)
+
+
+@login_required
+def trade(trade_id):
+    tr = db.session.execute(db.select(Trades).filter_by(id=trade_id)).scalar()
+    print(type(tr))
+
+    if tr is None:
+        abort(400, 'Transaction not found.')
+    else:
+        if current_user != tr.start_user and current_user != tr.end_user:
+            abort(400, 'Current User not associated with the selected transaction.')
+        else:
+            # create here the trade view backend ---------------------------------
+            
+            return render_template('homepage/trade.html', trade=tr)
 
 
 # AUTHENTIFICATION ---------------------------------------------------------------------------------------
