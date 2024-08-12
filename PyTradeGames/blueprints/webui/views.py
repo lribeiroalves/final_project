@@ -6,6 +6,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from .forms import LoginForm, RegisterForm, AddGameForm, StartTradeForm
 
+from sqlalchemy import or_
+
 from PyTradeGames.ext.database import db
 from PyTradeGames.ext.database.models import *
 
@@ -20,7 +22,9 @@ def index():
 # USER INTERFACE ---------------------------------------------------------------------------------------
 @login_required
 def profile():
-    return render_template('homepage/profile.html')
+    user_trades = db.session.execute(db.select(Trades).filter(or_(Trades.start_user_id==current_user.id,Trades.end_user_id==current_user.id))).scalars().all()
+    
+    return render_template('homepage/profile.html', trades=user_trades)
 
 
 def games():
