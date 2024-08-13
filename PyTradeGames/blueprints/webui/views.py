@@ -122,7 +122,6 @@ def start_trade():
 @login_required
 def trade(trade_id):
     tr = db.session.execute(db.select(Trades).filter_by(id=trade_id)).scalar()
-    print(type(tr))
 
     if tr is None:
         abort(400, 'Transaction not found.')
@@ -130,10 +129,11 @@ def trade(trade_id):
         if current_user != tr.start_user and current_user != tr.end_user:
             abort(400, 'Current User not associated with the selected transaction.')
         else:
+            messages = db.session.execute(db.select(Messages).filter_by(trade=tr).order_by(Messages.date)).scalars()
             # create here the trade view backend ---------------------------------
             
             # return render_template('homepage/example.html')
-            return render_template('homepage/trade.html', trade=tr)
+            return render_template('homepage/trade.html', trade=tr, messages=messages)
 
 
 # AUTHENTIFICATION ---------------------------------------------------------------------------------------

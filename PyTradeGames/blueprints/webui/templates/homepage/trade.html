@@ -1,6 +1,6 @@
 {%  extends "layout.html" %}
 
-{% block title %}{{ current_user.username }}{% endblock %}
+{% block title %}Trade {{trade.id}}{% endblock %}
 
 {% block link_css %}
     <link rel="stylesheet" href="{{url_for('static', filename='css/content.css')}}">
@@ -38,15 +38,28 @@
         </div>
     </div>
     <div class="row">
-        <h2 class="headers w-100">Messages</h2>
+        <h2 class="headers w-100 mb-5">Messages</h2>
         <div class="w-100">
-            <ul class="list-unstyled">
-                <li class="">
-                    
-                </li>
-                <li class="">
-                    
-                </li>
+            <ul class="list-unstyled border border-3 p-3 rounded" style="max-height: 60vh; overflow-y: auto; border-color: white !important;">
+                {% if messages %}
+                    {% for msg in messages %}
+                    <li class="d-flex mb-4">
+                            {% if current_user.id == msg.from_user.id %}<div class="w-50"></div>{% endif %}
+                            <div class="card w-50">
+                                <div class="card-header d-flex justify-content-between p-3">
+                                    <p class="fw-bold mb-0">{{msg.from_user.username}}</p>
+                                    <p class="text-mutes small mb-0"><i class="far fa-clock"></i>{{msg.date.strftime('%Y/%m/%d - %H:%M')}}</p>
+                                </div>
+                                <div class="card-body">
+                                    <p class="mb-0">
+                                        {{msg.content}}
+                                    </p>
+                                </div>
+                            </div>
+                            {% if current_user.id == msg.to_user.id %}<div class="w-50"></div>{% endif %}
+                        </li>
+                    {% endfor %}
+                {% endif %}
             </ul>
         </div>
     </div>
