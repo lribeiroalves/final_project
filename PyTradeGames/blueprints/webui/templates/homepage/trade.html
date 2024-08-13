@@ -11,5 +11,44 @@
 {% block nav_games %}white{% endblock %}
 
 {% block main %}
-    {{trade}}
+<div class="container-md">
+    <div class="row mt-5 mb-2">
+        <h1 class="headers">
+            Trade #{{trade.id}}
+        </h1>
+    </div>
+    <div class="row">
+        <h6 class="headers header-since">
+            Date: {{trade.initial_datetime.date()}}
+        </h6>
+    </div>
+    <div class="row">
+        <h5 class="headers header-reviews">
+            Status: {{trade.status}}
+        </h5>
+    </div>
+    <div class="row my-5 justify-content-between">
+        <div class="col" id="user_from">
+            <h3 class="headers mb-3">From: {{trade.start_user.username}}</h3>
+            <h5 class="headers">Game Offered: {{trade.start_game.name}}</h5>
+        </div>
+        <div class="col" id="user_to">
+            <h3 class="headers mb-3">To: {{trade.end_user.username}}</h3>
+            <h5 class="headers">Game Requested: {{trade.end_game.name}}</h5>
+        </div>
+    </div>
+    <div class="row">
+        <h2 class="headers w-100">Messages</h2>
+        <div class="w-100">
+            <ul class="list-unstyled">
+                <li class="">
+                    
+                </li>
+                <li class="">
+                    
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 {% endblock %}

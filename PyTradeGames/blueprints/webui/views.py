@@ -113,7 +113,7 @@ def start_trade():
         
         db.session.commit()
         
-        flash('New trade created, wait for the other users answer.')
+        flash('New trade created, wait for the other user answers.')
         return redirect(url_for('webui.trade', trade_id=trade_id))
     else:
         return render_template('homepage/users.html', form=form, users=users)
@@ -132,6 +132,7 @@ def trade(trade_id):
         else:
             # create here the trade view backend ---------------------------------
             
+            # return render_template('homepage/example.html')
             return render_template('homepage/trade.html', trade=tr)
 
 
