@@ -151,10 +151,10 @@ def login():
             return redirect(url_for('webui.login'))
         else:
             login_user(user)
-            flash(f'User has logged in successfully.')
+            flash(f'{current_user.username} has logged in successfully.')
 
             next_request = form.next.data
-            return redirect(next_request) if next_request != 'None' else redirect(url_for('webui.index'))
+            return redirect(next_request) if next_request != 'None' else redirect(url_for('webui.profile'))
 
     next = request.args.get('next')
     
