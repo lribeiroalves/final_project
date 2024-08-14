@@ -65,7 +65,9 @@
         </div>
     </div>
     <div class="row mt-3 w-50 float-end">
-        <form action="#" method="post">
+        <form action="{{url_for('webui.post_message')}}" method="post">
+            {{ message_form.csrf_token }}
+            {{ message_form.trade_id(value=trade.id) }}
             <div class="form-floating mb-2">
                 {{message_form.message(class="form-control msg_input", placeholder="Message")}}
                 {{message_form.message.label(class="form-label")}}

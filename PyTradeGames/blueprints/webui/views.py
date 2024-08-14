@@ -137,6 +137,20 @@ def trade(trade_id):
             return render_template('homepage/trade.html', trade=tr, messages=messages, message_form=message_form)
 
 
+@login_required
+def post_message():
+    form = MessageForm()
+
+    trade = db.session.execute(db.select(Trades).filter_by(id=id)).scalar()
+
+    if form.validate_on_submit():
+        print(form.message.data)
+        print(form.trade_id.data)
+        print(trade)
+    
+    return redirect(url_for('webui.trade', trade_id=int(form.trade_id.data)))
+
+
 # AUTHENTIFICATION ---------------------------------------------------------------------------------------
 def login():
     if current_user.is_authenticated:

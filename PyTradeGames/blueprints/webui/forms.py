@@ -117,6 +117,15 @@ def user_has_game_check(other_field):
     return _user_has_game_check
 
 
+def check_trade_exists():
+    """Validation of id provided by the user for a trade"""
+
+    def _check_trade_exists(form, field):
+        id = int(field.data) if form.trade_id.data.isnumeric() else raise ValidationError('Trade Id must be an integer.')
+
+    return _check_trade_exists
+
+
 # FORMS
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), user_exist()])
@@ -146,4 +155,5 @@ class StartTradeForm(FlaskForm):
 
 class MessageForm(FlaskForm):
     message = StringField('Message', widget=TextArea(), validators=[DataRequired()])
+    trade_id = HiddenField('trade_id', validators=[DataRequired(), check_trade_exists()])
     
