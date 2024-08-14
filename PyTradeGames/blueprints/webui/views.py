@@ -140,7 +140,7 @@ def trade(trade_id):
 @login_required
 def post_message():
     form = MessageForm()
-
+    id = int(form.trade_id.data)
     trade = db.session.execute(db.select(Trades).filter_by(id=id)).scalar()
 
     if form.validate_on_submit():

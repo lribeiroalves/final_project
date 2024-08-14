@@ -3,7 +3,7 @@
 from flask_login import current_user
 
 from PyTradeGames.ext.database import db
-from PyTradeGames.ext.database.models import Users, Games
+from PyTradeGames.ext.database.models import Users, Games, Trades
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, EmailField, HiddenField, IntegerField
@@ -121,7 +121,11 @@ def check_trade_exists():
     """Validation of id provided by the user for a trade"""
 
     def _check_trade_exists(form, field):
-        id = int(field.data) if form.trade_id.data.isnumeric() else raise ValidationError('Trade Id must be an integer.')
+        if not field.data.isnumeric():
+            raise ValidationError('Trade Id must be an integer.')
+        
+        if db.session.execute(db.select(Trades).filter_by(id=id)).scalar() is None:
+            raise ValidationError('Transaction not found.')
 
     return _check_trade_exists
 
