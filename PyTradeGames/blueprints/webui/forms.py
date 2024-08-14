@@ -8,6 +8,7 @@ from PyTradeGames.ext.database.models import Users, Games
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, EmailField, HiddenField, IntegerField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
+from wtforms.widgets import TextArea
 
 from password_strength import PasswordPolicy, PasswordStats
 
@@ -141,3 +142,8 @@ class StartTradeForm(FlaskForm):
     start_game = HiddenField('start_game_id', validators=[DataRequired(), user_has_game_check(other_field='start_user')])
     end_user = HiddenField('end_user_id', validators=[DataRequired(), user_check()])
     end_game = HiddenField('end_game_id', validators=[DataRequired(), user_has_game_check(other_field='end_user')])
+
+
+class MessageForm(FlaskForm):
+    message = StringField('Message', widget=TextArea(), validators=[DataRequired()])
+    

@@ -4,6 +4,7 @@
 
 {% block link_css %}
     <link rel="stylesheet" href="{{url_for('static', filename='css/content.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/trade.css')}}">
 {% endblock %}
 
 {% block nav_home %}white{% endblock %}
@@ -38,9 +39,9 @@
         </div>
     </div>
     <div class="row">
-        <h2 class="headers w-100 mb-5">Messages</h2>
+        <h2 class="headers w-100 mb-2">Messages</h2>
         <div class="w-100">
-            <ul class="list-unstyled border border-3 p-3 rounded" style="max-height: 60vh; overflow-y: auto; border-color: white !important;">
+            <ul class="list-unstyled border border-3 p-3 rounded" style="height: 60vh; overflow-y: auto; border-color: white !important;">
                 {% if messages %}
                     {% for msg in messages %}
                     <li class="d-flex mb-4">
@@ -62,6 +63,15 @@
                 {% endif %}
             </ul>
         </div>
+    </div>
+    <div class="row mt-3 w-50 float-end">
+        <form action="#" method="post">
+            <div class="form-floating mb-2">
+                {{message_form.message(class="form-control msg_input", placeholder="Message")}}
+                {{message_form.message.label(class="form-label")}}
+            </div>
+            <button type="submit" class="btn btn-info btn-rounded float-end">Post Message</button>
+        </form>
     </div>
 </div>
 {% endblock %}
