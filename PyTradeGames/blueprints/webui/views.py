@@ -140,15 +140,31 @@ def trade(trade_id):
 @login_required
 def post_message():
     form = MessageForm()
-    id = int(form.trade_id.data)
-    trade = db.session.execute(db.select(Trades).filter_by(id=id)).scalar()
-
-    if form.validate_on_submit():
-        print(form.message.data)
-        print(form.trade_id.data)
-        print(trade)
     
-    return redirect(url_for('webui.trade', trade_id=int(form.trade_id.data)))
+    error = None
+
+    id = request.referrer.split('/')[-1]
+    if id.isnumeric():
+        id = int(id)
+    else:
+        error = 'Id providaded is not valid.'
+
+    if error is None:
+        trade = db.session.execute(db.select(Trades).filter_by(id=id)).scalar()
+        if trade is None:
+            error = 'Transaction not found.'
+    
+    if error is not None:
+        if form.validate_on_submit():
+            # Post new message on database
+            pass
+        else:
+            for err in form.errors['message']:
+                flash(err)
+    else:
+        flash(error)
+    
+    return redirect(url_for('webui.trade', trade_id=int(id)))
 
 
 # AUTHENTIFICATION ---------------------------------------------------------------------------------------
