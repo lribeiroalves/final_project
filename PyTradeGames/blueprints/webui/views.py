@@ -154,10 +154,21 @@ def post_message():
         if trade is None:
             error = 'Transaction not found.'
     
-    if error is not None:
+    if error is None:
         if form.validate_on_submit():
             # Post new message on database
-            pass
+            new_message = Messages()
+            new_message.content = form.message.data
+            new_message.date = datetime.now()
+            new_message.from_user = current_user
+            if trade.start_user == current_user:
+                new_message.to_user = trade.end_user
+            else:
+                new_message.to_user = trade.start_user
+            new_message.trade = trade
+
+            db.session.add(new_message)
+            db.session.commit()
         else:
             for err in form.errors['message']:
                 flash(err)
