@@ -1,3 +1,40 @@
 .msg_input {
     min-height: 100px !important;
 }
+
+.card-div {
+    min-width: 80%;
+}
+
+.time-text {
+    font-size: 0.8rem;
+}
+
+.message-div {
+    height: 60vh;
+    overflow-y: auto;
+    border-color: white !important;
+}
+
+@media (min-width: 960px) {
+    .form-div {
+        max-width: 50%;
+    }
+
+    .card-div {
+        min-width: 0%;
+        width: 50%;
+    }
+
+    .time-text {
+        font-size: 0.9rem;
+    }
+}
+
+@media (orientation: landscape) and (max-width: 800px) {
+    .message-div {
+        margin-left: 10vw;
+        margin-right: 10vw;
+        height: 100vh;
+    }
+}

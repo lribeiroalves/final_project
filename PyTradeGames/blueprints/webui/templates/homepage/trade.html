@@ -41,15 +41,15 @@
     <div class="row">
         <h2 class="headers w-100 mb-2">Messages</h2>
         <div class="w-100">
-            <ul class="list-unstyled border border-3 p-3 rounded" style="height: 60vh; overflow-y: auto; border-color: white !important;">
+            <ul class="list-unstyled border border-3 p-3 rounded message-div">
                 {% if messages %}
                     {% for msg in messages %}
                     <li class="d-flex mb-4">
                             {% if current_user.id == msg.from_user.id %}<div class="w-50"></div>{% endif %}
-                            <div class="card w-50">
+                            <div class="card card-div">
                                 <div class="card-header d-flex justify-content-between p-3">
-                                    <p class="fw-bold mb-0">{{msg.from_user.username}}</p>
-                                    <p class="text-mutes small mb-0"><i class="far fa-clock"></i>{{msg.date.strftime('%Y/%m/%d - %H:%M')}}</p>
+                                    <p class="fw-bold mb-0 overflow-x-hidden">{{msg.from_user.username}}</p>
+                                    <p class="text-mutes small mb-0 time-text pt-1"><i class="far fa-clock"></i>{{msg.date.strftime('%Y/%m/%d - %H:%M')}}</p>
                                 </div>
                                 <div class="card-body">
                                     <p class="mb-0">
@@ -64,7 +64,7 @@
             </ul>
         </div>
     </div>
-    <div class="row mt-3 w-50 float-end">
+    <div class="row mt-3 w-100 float-end form-div">
         <form action="{{url_for('webui.post_message')}}" method="post">
             {{ message_form.csrf_token }}
             <div class="form-floating mb-2">

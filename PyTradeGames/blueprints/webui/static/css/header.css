@@ -4,9 +4,13 @@
     }
 }
 
-@media (min-width: 576px) and (max-width: 992px) {
+@media (min-width: 640px) and (max-width: 992px) {
     header ul {
         padding-right: 40px !important;
+    }
+
+    header, nav {
+        height: 50px;
     }
 }
 
