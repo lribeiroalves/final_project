@@ -23,8 +23,10 @@ def index():
 @login_required
 def profile():
     user_trades = db.session.execute(db.select(Trades).filter(or_(Trades.start_user_id==current_user.id,Trades.end_user_id==current_user.id))).scalars().all()
+    user_trades_ids = [tr.id for tr in user_trades]
+    unread_messages = db.session.execute(db.select(Messages).filter(Messages.trade_id.in_(user_trades_ids)).filter_by(read = False, to_user = current_user)).scalars().all()
     
-    return render_template('homepage/profile.html', trades=user_trades)
+    return render_template('homepage/profile.html', trades=user_trades, unread_messages=len(unread_messages))
 
 
 def games():

@@ -82,7 +82,7 @@
                                     <a href="{{url_for('webui.trade', trade_id=trade.id)}}" class="list-group-item border-3 mb-2">
                                         <div class="container-fluid">
                                             <div class="row">
-                                                <h3 class="content mt-3"><strong>Trade {{trade.id}}</strong></h3>
+                                                <h3 class="content mt-3"><strong>Trade {{trade.id}}</strong>{% if unread_messages > 0 %} - <span class="badge text-bg-warning">{{unread_messages}} new messages</span> {% endif %}</h3>
                                             </div>
                                             <div class="row mb-3">
                                                 <h6 class="content" style="font-size: small;">Date: <strong>{{trade.initial_datetime.date()}}</strong></h6>

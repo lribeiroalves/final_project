@@ -100,6 +100,9 @@ class Messages(db.Model):
     to_user:Mapped['Users'] = relationship(foreign_keys=[to_user_id])
     trade_id:Mapped[int] = mapped_column(ForeignKey('trades.id'))
     trade:Mapped['Trades'] = relationship(foreign_keys=[trade_id])
+
+    def __repr__(self) -> str:
+        return f'Message(id={self.id}, content={self.content}, read={self.read}, date={self.date})'
     
 
 class Reviews(db.Model):
