@@ -23,10 +23,15 @@ def index():
 @login_required
 def profile():
     user_trades = db.session.execute(db.select(Trades).filter(or_(Trades.start_user_id==current_user.id,Trades.end_user_id==current_user.id))).scalars().all()
+
     user_trades_ids = [tr.id for tr in user_trades]
-    unread_messages = db.session.execute(db.select(Messages).filter(Messages.trade_id.in_(user_trades_ids)).filter_by(read = False, to_user = current_user)).scalars().all()
+    messages = db.session.execute(db.select(Messages).filter(Messages.trade_id.in_(user_trades_ids)).filter_by(read = False, to_user = current_user)).scalars().all()
     
-    return render_template('homepage/profile.html', trades=user_trades, unread_messages=len(unread_messages))
+    unread_messages = {id:0 for id in user_trades_ids}
+    for msg in messages:
+        unread_messages[msg.trade_id] += 1
+    
+    return render_template('homepage/profile.html', trades=user_trades, unread_messages=unread_messages)
 
 
 def games():
@@ -132,8 +137,13 @@ def trade(trade_id):
         if current_user != tr.start_user and current_user != tr.end_user:
             abort(400, 'Current User not associated with the selected transaction.')
         else:
-            messages = db.session.execute(db.select(Messages).filter_by(trade=tr).order_by(Messages.date)).scalars()
-            # create here the trade view backend ---------------------------------
+            messages = db.session.execute(db.select(Messages).filter_by(trade=tr).order_by(Messages.date)).scalars().all()
+            for msg in messages:
+                if msg.read == False and msg.to_user == current_user:
+                    msg.read = True
+            db.session.commit()
+
+            # messages = db.session.execute(db.select(Messages).filter_by(trade=tr).order_by(Messages.date)).scalars()
             
             # return render_template('homepage/example.html')
             return render_template('homepage/trade.html', trade=tr, messages=messages, message_form=message_form)
