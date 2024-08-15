@@ -228,6 +228,7 @@ def register():
         new_user.email = form.email.data
         new_user.password = generate_password_hash(form.password.data)
         new_user.admin = False
+        new_user.since = datetime.now()
 
         db.session.add(new_user)
         db.session.commit()
