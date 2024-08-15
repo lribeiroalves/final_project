@@ -143,9 +143,6 @@ def trade(trade_id):
                     msg.read = True
             db.session.commit()
 
-            # messages = db.session.execute(db.select(Messages).filter_by(trade=tr).order_by(Messages.date)).scalars()
-            
-            # return render_template('homepage/example.html')
             return render_template('homepage/trade.html', trade=tr, messages=messages, message_form=message_form)
 
 
