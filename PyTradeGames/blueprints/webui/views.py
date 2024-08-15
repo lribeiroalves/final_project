@@ -187,7 +187,7 @@ def post_message():
     return redirect(url_for('webui.trade', trade_id=int(id)))
 
 
-# AUTHENTIFICATION ---------------------------------------------------------------------------------------
+# AUTHENTICATION ---------------------------------------------------------------------------------------
 def login():
     if current_user.is_authenticated:
         flash('User already autenticated.')
