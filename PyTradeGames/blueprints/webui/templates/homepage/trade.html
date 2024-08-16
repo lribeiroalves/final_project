@@ -12,21 +12,49 @@
 {% block nav_games %}white{% endblock %}
 
 {% block main %}
+<!-- Finish Trade Modal -->
+ <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p>header</p>
+            </div>
+            <div class="modal-body">
+                <p>body</p>
+            </div>
+            <div class="modal-footer">
+                <p>footer</p>
+            </div>
+        </div>
+    </div>
+ </div>
+
 <div class="container-md">
     <div class="row mt-5 mb-2">
-        <h1 class="headers">
-            Trade #{{trade.id}}
-        </h1>
-    </div>
-    <div class="row">
-        <h6 class="headers header-since">
-            Date: {{trade.initial_datetime.date()}}
-        </h6>
-    </div>
-    <div class="row">
-        <h5 class="headers header-reviews">
-            Status: {{trade.status}}
-        </h5>
+        <div class="col">
+            <div class="row">
+                <h1 class="headers">
+                    Trade #{{trade.id}}
+                </h1>
+            </div>
+            <div class="row">
+                <h6 class="headers header-since">
+                    Date: {{trade.initial_datetime.date()}}
+                </h6>
+            </div>
+            <div class="row">
+                <h5 class="headers header-reviews">
+                    Status: {{trade.status}}
+                </h5>
+            </div>
+        </div>
+        <div class="col">
+            {% if trade.end_user == current_user %}
+                <div class="row pt-3 px-3 h-75">
+                    <button class="btn btn-warning headers finish-button" data-bs-toggle="modal" data-bs-target="#confirmationModal"><strong>Finish Trade</strong></button>
+                </div>
+            {% endif %}
+        </div>
     </div>
     <div class="row my-5 justify-content-between">
         <div class="col" id="user_from">
@@ -75,4 +103,8 @@
         </form>
     </div>
 </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{url_for('static', filename='js/tradeModal.js')}}"></script>
 {% endblock %}

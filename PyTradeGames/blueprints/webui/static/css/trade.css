@@ -29,6 +29,10 @@
     .time-text {
         font-size: 0.9rem;
     }
+
+    .finish-button {
+        font-size: x-large;
+    }
 }
 
 @media (orientation: landscape) and (max-width: 800px) {
