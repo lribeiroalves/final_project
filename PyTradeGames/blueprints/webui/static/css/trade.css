@@ -16,6 +16,10 @@
     border-color: white !important;
 }
 
+button.modalButton {
+    width: 40% !important;
+}
+
 @media (min-width: 960px) {
     .form-div {
         max-width: 50%;
