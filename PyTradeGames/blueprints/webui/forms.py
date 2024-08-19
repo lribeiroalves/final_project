@@ -6,7 +6,7 @@ from PyTradeGames.ext.database import db
 from PyTradeGames.ext.database.models import Users, Games, Trades
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, EmailField, HiddenField, IntegerField
+from wtforms import StringField, PasswordField, EmailField, HiddenField, IntegerField, RadioField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from wtforms.widgets import TextArea
 
@@ -146,4 +146,8 @@ class StartTradeForm(FlaskForm):
 
 class MessageForm(FlaskForm):
     message = StringField('Message', widget=TextArea(), validators=[DataRequired()])
-    
+
+
+class ReviewForm(FlaskForm):
+    message = StringField('Message', widget=TextArea())
+    rating = RadioField('Rating', choices=[('1', '★'), ('2', '★'), ('3', '★'),('4', '★'), ('5', '★')], validators=[DataRequired()])

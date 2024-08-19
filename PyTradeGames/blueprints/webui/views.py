@@ -4,7 +4,7 @@ from flask import render_template, flash, redirect, url_for, request, abort
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from .forms import LoginForm, RegisterForm, AddGameForm, StartTradeForm, MessageForm
+from .forms import LoginForm, RegisterForm, AddGameForm, StartTradeForm, MessageForm, ReviewForm
 
 from sqlalchemy import or_
 
@@ -128,6 +128,7 @@ def start_trade():
 
 @login_required
 def trade(trade_id):
+    review_form = ReviewForm()
     message_form = MessageForm()
     tr = db.session.execute(db.select(Trades).filter_by(id=trade_id)).scalar()
 
@@ -143,7 +144,7 @@ def trade(trade_id):
                     msg.read = True
             db.session.commit()
 
-            return render_template('homepage/trade.html', trade=tr, messages=messages, message_form=message_form)
+            return render_template('homepage/trade.html', trade=tr, messages=messages, message_form=message_form, review_form=review_form)
 
 
 @login_required

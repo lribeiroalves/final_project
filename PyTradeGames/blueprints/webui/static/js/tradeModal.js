@@ -8,6 +8,5 @@ if (modal) {
     modal.addEventListener('show.bs.modal', event => {
         // Button that triggered the modal
         const button = event.relatedTarget;
-        console.log(button)
     })
 }
