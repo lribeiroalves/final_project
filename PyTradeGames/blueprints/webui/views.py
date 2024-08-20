@@ -28,7 +28,7 @@ def profile():
     unread_messages = {id:0 for id in user_trades_ids}
     for msg in messages:
         unread_messages[msg.trade_id] += 1
-    reviews = db.session.execute(db.select(Reviews).filter_by(to_user = current_user)).scalars()
+    reviews = db.session.execute(db.select(Reviews).filter_by(to_user = current_user)).scalars().all()
     
     return render_template('homepage/profile.html', trades=user_trades, unread_messages=unread_messages, reviews=reviews)
 

@@ -105,27 +105,30 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-reviews" role="tabpanel" aria-labelledby="nav-reviews-tab" tabindex="0">
-                        <h4 class="content mb-3 mt-2 px-3" style="text-shadow: 1px 1px black;">Average Rating: X</h4>
-                        {% for rev in reviews %}
-                            <div class="list-group">
-                                <div class="list-group-item border-3 mb-2 rounded">
-                                    <div class="container-fluid">
-                                        <p class="content my-0 py-0">Rating: 
-                                            <i class="fs-3 mx-2">
-                                                {% for i in range(rev.grade) %}
-                                                    <span style="color: gold; filter: drop-shadow(0 0 0.75rem crimson);">★</span>
-                                                {% endfor %}
-                                                {% for i in range(5 - rev.grade) %}
-                                                    <span style="color: gray; filter: drop-shadow(0 0 0.75rem crimson);">★</span>
-                                                {% endfor %}
-                                            </i>
-                                        </p>
-                                        <p class="content my-0 py-0">From: <strong>{{rev.from_user.username}}</strong></p>
-                                        <p class="content my-0 py-0">Message: <strong>{{rev.message}}</strong></p>
+                        {% if reviews %}
+                            {% for rev in reviews %}
+                                <div class="list-group">
+                                    <div class="list-group-item border-3 mb-2 rounded">
+                                        <div class="container-fluid">
+                                            <p class="content my-0 py-0">Rating: 
+                                                <i class="fs-3 mx-2">
+                                                    {% for i in range(rev.grade) %}
+                                                        <span style="color: gold; filter: drop-shadow(0 0 0.75rem crimson);">★</span>
+                                                    {% endfor %}
+                                                    {% for i in range(5 - rev.grade) %}
+                                                        <span style="color: gray; filter: drop-shadow(0 0 0.75rem crimson);">★</span>
+                                                    {% endfor %}
+                                                </i>
+                                            </p>
+                                            <p class="content my-0 py-0">From: <strong>{{rev.from_user.username}}</strong></p>
+                                            <p class="content my-0 py-0">Message: <strong>{{rev.message}}</strong></p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
+                        {% else %}
+                            <li class="list-group-item border-3" style="background-color: rgba(0, 0, 0, 0);">No reviews found for this user.</li>
+                        {% endif %}
                     </div>
                 </div>
             </div>
