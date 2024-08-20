@@ -123,10 +123,11 @@ def check_rating():
     def _check_rating(form, field):
         try:
             rating = int(field.data)
-            if rating < 1 or rating > 5:
-                raise ValidationError('Rating must be between 1 and 5.')
         except:
             raise ValidationError('Rating must be a number')
+        
+        if rating < 1 or rating > 5:
+            raise ValidationError('Rating must be a number between 1 and 5.')
         
     return _check_rating
 
@@ -164,4 +165,4 @@ class MessageForm(FlaskForm):
 
 class ReviewForm(FlaskForm):
     message = StringField('Message', widget=TextArea())
-    rating = RadioField('Rating', choices=[(i, '★') for i in range(5)], validators=[DataRequired(), check_rating()])
+    rating = RadioField('Rating', choices=[(i, '★') for i in range(1, 6)], validators=[DataRequired(), check_rating()])

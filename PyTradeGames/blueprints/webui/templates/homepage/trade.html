@@ -13,39 +13,41 @@
 {% block nav_games %}white{% endblock %}
 
 {% block main %}
-<!-- Finish Trade Modal -->
- <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="confirmationModalLabel">Ready to finish the trade?</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ url_for('webui.post_review') }}" id="reviewForm" method="post">
-                    {{ review_form.csrf_token }}
-                    <div class="row">
-                        <p class="mb-0 px-1 headers">How do you rate <strong>{{ trade.start_user.username }}</strong> ?</p>
-                        <div class="star-rating mt-1 mb-3 px-2">
-                            {% for subfield in review_form.rating %}
-                                {{ subfield }}
-                                {{ subfield.label(class="fs-3") }}
-                            {% endfor %}
+{% if (current_user == trade.start_user and trade.status == 'closed') or (current_user == trade.end_user and trade.status == 'open') %}
+    <!-- Finish Trade Modal -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="confirmationModalLabel">Ready to finish the trade?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('webui.post_review') }}" id="reviewForm" method="post">
+                        {{ review_form.csrf_token }}
+                        <div class="row">
+                            <p class="mb-0 px-1 headers">How do you rate <strong>{% if current_user == trade.end_user %} {{ trade.start_user.username }} {% else %} {{ trade.end_user.username }} {% endif %} </strong> ?</p>
+                            <div class="star-rating mt-1 mb-3 px-2">
+                                {% for subfield in review_form.rating %}
+                                    {{ subfield }}
+                                    {{ subfield.label(class="fs-3") }}
+                                {% endfor %}
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <p class="mb-1 px-1 headers">Write a message describing your trade with <strong>{{ trade.start_user.username }}</strong> (Optional)</p>
-                        <div class="row px-4">{{ review_form.message(placeholder="Write message here.") }}</div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer justify-content-between px-5">
-                <button type="button" class="btn btn-danger w-auto modalButton" data-bs-dismiss="modal">Go Back</button>
-                <button type="submit" class="btn btn-primary w-auto modalButton" form="reviewForm">Finish</button>
+                        <div class="row">
+                            <p class="mb-1 px-1 headers">Write a message describing your trade with <strong>{% if current_user == trade.end_user %} {{ trade.start_user.username }} {% else %} {{ trade.end_user.username }} {% endif %}</strong> (Optional)</p>
+                            <div class="row px-4">{{ review_form.message(placeholder="Write message here.") }}</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer justify-content-between px-5">
+                    <button type="button" class="btn btn-danger w-auto modalButton" data-bs-dismiss="modal">Go Back</button>
+                    <button type="submit" class="btn btn-primary w-auto modalButton" form="reviewForm">Finish</button>
+                </div>
             </div>
         </div>
     </div>
- </div>
+{% endif %}
 
 <div class="container-md">
     <div class="row mt-5 mb-2">
@@ -62,12 +64,12 @@
             </div>
             <div class="row">
                 <h5 class="headers header-reviews">
-                    Status: {{trade.status}}
+                    Status: {% if trade.status == 'open' %} Open {% elif trade.status == 'closed' %} Closed and waiting for <strong>{{ trade.start_user.username }}</strong> to rate <strong>{{ trade.end_user.username }}</strong> {% else %} Finished {% endif %}
                 </h5>
             </div>
         </div>
         <div class="col">
-            {% if trade.end_user == current_user %}
+            {% if (current_user == trade.start_user and trade.status == 'closed') or (current_user == trade.end_user and trade.status == 'open') %}
                 <div class="row pt-3 px-3 h-75">
                     <button class="btn btn-warning headers finish-button" data-bs-toggle="modal" data-bs-target="#confirmationModal"><strong>Finish Trade</strong></button>
                 </div>
@@ -76,12 +78,12 @@
     </div>
     <div class="row my-5 justify-content-between">
         <div class="col" id="user_from">
-            <h3 class="headers mb-3">From: {{trade.start_user.username}}</h3>
-            <h5 class="headers">Game Offered: {{trade.start_game.name}}</h5>
+            <h3 class="headers mb-3">From: <strong>{{trade.start_user.username}}</strong></h3>
+            <h5 class="headers">Game Offered: <strong>{{trade.start_game.name}}</strong></h5>
         </div>
         <div class="col" id="user_to">
-            <h3 class="headers mb-3">To: {{trade.end_user.username}}</h3>
-            <h5 class="headers">Game Requested: {{trade.end_game.name}}</h5>
+            <h3 class="headers mb-3">To: <strong>{{trade.end_user.username}}</strong></h3>
+            <h5 class="headers">Game Requested: <strong>{{trade.end_game.name}}</strong></h5>
         </div>
     </div>
     <div class="row">
@@ -90,7 +92,7 @@
             <ul class="list-unstyled border border-3 p-3 rounded message-div">
                 {% if messages %}
                     {% for msg in messages %}
-                    <li class="d-flex mb-4">
+                        <li class="d-flex mb-4">
                             {% if current_user.id == msg.from_user.id %}<div class="w-50"></div>{% endif %}
                             <div class="card card-div">
                                 <div class="card-header d-flex justify-content-between p-3">
@@ -110,16 +112,18 @@
             </ul>
         </div>
     </div>
-    <div class="row mt-3 w-100 float-end form-div">
-        <form action="{{url_for('webui.post_message')}}" method="post">
-            {{ message_form.csrf_token }}
-            <div class="form-floating mb-2">
-                {{message_form.message(class="form-control msg_input", placeholder="Message")}}
-                {{message_form.message.label(class="form-label")}}
-            </div>
-            <button type="submit" class="btn btn-info btn-rounded float-end">Post Message</button>
-        </form>
-    </div>
+    {% if trade.status == 'open' %}
+        <div class="row mt-3 w-100 float-end form-div">
+            <form action="{{url_for('webui.post_message')}}" method="post">
+                {{ message_form.csrf_token }}
+                <div class="form-floating mb-2">
+                    {{message_form.message(class="form-control msg_input", placeholder="Message")}}
+                    {{message_form.message.label(class="form-label")}}
+                </div>
+                <button type="submit" class="btn btn-info btn-rounded float-end">Post Message</button>
+            </form>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}
 

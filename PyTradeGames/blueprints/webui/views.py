@@ -23,15 +23,14 @@ def index():
 @login_required
 def profile():
     user_trades = db.session.execute(db.select(Trades).filter(or_(Trades.start_user_id==current_user.id,Trades.end_user_id==current_user.id))).scalars().all()
-
     user_trades_ids = [tr.id for tr in user_trades]
     messages = db.session.execute(db.select(Messages).filter(Messages.trade_id.in_(user_trades_ids)).filter_by(read = False, to_user = current_user)).scalars().all()
-    
     unread_messages = {id:0 for id in user_trades_ids}
     for msg in messages:
         unread_messages[msg.trade_id] += 1
+    reviews = db.session.execute(db.select(Reviews).filter_by(to_user = current_user)).scalars()
     
-    return render_template('homepage/profile.html', trades=user_trades, unread_messages=unread_messages)
+    return render_template('homepage/profile.html', trades=user_trades, unread_messages=unread_messages, reviews=reviews)
 
 
 def games():
@@ -208,12 +207,31 @@ def post_review():
     if error is None:
         if form.validate_on_submit():
             msg = form.message.data
-            rating = 5 - int(form.rating.data)
+            rating = 6 - int(form.rating.data)
 
-            # CRIAR O INSERT NA TABELA REVIEWS DO DB E O EDIT NA TABELA TRADES
-            print(msg)
-            print(rating)
+            # insert new review and edit trade status on trade
+            new_review = Reviews()
+            new_review.grade = rating
 
+            if len(msg) > 0:
+                new_review.message = msg
+
+            new_review.from_user = current_user
+
+            new_review.trade = trade
+
+            if trade.start_user == current_user:
+                new_review.to_user = trade.end_user
+                trade.status = 'finished'
+                flash('Trade finished, Thank You.')
+            else:
+                new_review.to_user = trade.start_user
+                trade.status = 'closed'
+                flash('Trade concluded, wait for the other user to rate you.')
+
+
+            db.session.add(new_review)
+            db.session.commit()
         else:
             for title, err in form.errors.items():
                 flash(f'Field: {title} - Errors: {err}')
