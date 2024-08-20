@@ -22,7 +22,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="#" id="reviewForm" method="post">
+                <form action="{{ url_for('webui.post_review') }}" id="reviewForm" method="post">
                     {{ review_form.csrf_token }}
                     <div class="row">
                         <p class="mb-0 px-1 headers">How do you rate <strong>{{ trade.start_user.username }}</strong> ?</p>

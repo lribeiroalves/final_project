@@ -180,12 +180,47 @@ def post_message():
             db.session.add(new_message)
             db.session.commit()
         else:
-            for err in form.errors['message']:
-                flash(err)
+            for title, err in form.errors.items():
+                flash(f'Field: {title} - Errors: {err}')
     else:
         flash(error)
     
-    return redirect(url_for('webui.trade', trade_id=int(id)))
+    return redirect(url_for('webui.trade', trade_id=id))
+
+
+@login_required
+def post_review():
+    form = ReviewForm()
+
+    error = None
+
+    id = request.referrer.split('/')[-1]
+    if id.isnumeric():
+        id = int(id)
+    else:
+        error = 'Id providaded is not valid.'
+
+    if error is None:
+        trade = db.session.execute(db.select(Trades).filter_by(id=id)).scalar()
+        if trade is None:
+            error = 'Transaction not found.'
+    
+    if error is None:
+        if form.validate_on_submit():
+            msg = form.message.data
+            rating = 5 - int(form.rating.data)
+
+            # CRIAR O INSERT NA TABELA REVIEWS DO DB E O EDIT NA TABELA TRADES
+            print(msg)
+            print(rating)
+
+        else:
+            for title, err in form.errors.items():
+                flash(f'Field: {title} - Errors: {err}')
+    else:
+        flash(error)
+
+    return redirect(url_for('webui.trade', trade_id=id))
 
 
 # AUTHENTICATION ---------------------------------------------------------------------------------------

@@ -117,6 +117,20 @@ def user_has_game_check(other_field):
     return _user_has_game_check
 
 
+def check_rating():
+    """Check the user rating provided by the user"""
+
+    def _check_rating(form, field):
+        try:
+            rating = int(field.data)
+            if rating < 1 or rating > 5:
+                raise ValidationError('Rating must be between 1 and 5.')
+        except:
+            raise ValidationError('Rating must be a number')
+        
+    return _check_rating
+
+
 # FORMS
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), user_exist()])
@@ -150,4 +164,4 @@ class MessageForm(FlaskForm):
 
 class ReviewForm(FlaskForm):
     message = StringField('Message', widget=TextArea())
-    rating = RadioField('Rating', choices=[(i, '★') for i in range(5)], validators=[DataRequired()])
+    rating = RadioField('Rating', choices=[(i, '★') for i in range(5)], validators=[DataRequired(), check_rating()])
