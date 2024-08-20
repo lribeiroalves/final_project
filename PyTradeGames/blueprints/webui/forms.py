@@ -150,4 +150,4 @@ class MessageForm(FlaskForm):
 
 class ReviewForm(FlaskForm):
     message = StringField('Message', widget=TextArea())
-    rating = RadioField('Rating', choices=[('1', '★'), ('2', '★'), ('3', '★'),('4', '★'), ('5', '★')], validators=[DataRequired()])
+    rating = RadioField('Rating', choices=[(i, '★') for i in range(5)], validators=[DataRequired()])
