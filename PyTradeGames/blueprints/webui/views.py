@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from .forms import LoginForm, RegisterForm, AddGameForm, StartTradeForm, MessageForm, ReviewForm
 
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 
 from PyTradeGames.ext.database import db
 from PyTradeGames.ext.database.models import *
@@ -29,6 +29,9 @@ def profile():
     for msg in messages:
         unread_messages[msg.trade_id] += 1
     reviews = db.session.execute(db.select(Reviews).filter_by(to_user = current_user)).scalars().all()
+
+    average = db.session.execute(db.select(func.avg(Reviews.grade.))).scalar()
+    print(average)
     
     return render_template('homepage/profile.html', trades=user_trades, unread_messages=unread_messages, reviews=reviews)
 
