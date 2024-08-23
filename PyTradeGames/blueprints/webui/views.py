@@ -30,10 +30,10 @@ def profile():
         unread_messages[msg.trade_id] += 1
     reviews = db.session.execute(db.select(Reviews).filter_by(to_user = current_user)).scalars().all()
 
-    average = db.session.execute(db.select(func.avg(Reviews.grade.))).scalar()
-    print(average)
+    rating_average = db.session.execute(db.select(func.avg(Reviews.grade)).filter_by(to_user = current_user)).scalar()
+    rating_count = db.session.execute(db.select(func.count(Reviews.grade)).filter_by(to_user = current_user)).scalar()
     
-    return render_template('homepage/profile.html', trades=user_trades, unread_messages=unread_messages, reviews=reviews)
+    return render_template('homepage/profile.html', trades=user_trades, unread_messages=unread_messages, reviews=reviews, r_avg=rating_average, r_cnt=rating_count)
 
 
 def games():

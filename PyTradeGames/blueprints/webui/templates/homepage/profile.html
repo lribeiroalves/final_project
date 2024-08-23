@@ -25,7 +25,16 @@
         </div>
         <div class="row">
             <h5 class="headers header-reviews">
-                Reviews (quant)
+                <!-- ------------------------------------------------- -->
+                <!-- <i class="fs-3 mx-2">
+                    {% for i in range(r_avg) %}
+                        <span style="color: gold; filter: drop-shadow(0 0 0.75rem crimson);">★</span>
+                    {% endfor %}
+                    {% for i in range(5 - r_avg) %}
+                        <span style="color: gray; filter: drop-shadow(0 0 0.75rem crimson);">★</span>
+                    {% endfor %}
+                </i> -->
+                ( {{r_cnt}} {% if r_count == 1 %} review {% else %} reviews{% endif %} )
             </h5>
         </div>
         <div class="row mt-5">
