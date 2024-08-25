@@ -26,7 +26,7 @@
         <div class="row">
             <h5 class="headers header-reviews">
                 {% if r_cnt > 0 %}
-                    {{r_avg}}/5 ( {{r_cnt}} {% if r_count == 1 %} Review{% else %} Reviews{% endif %} )
+                    {{r_avg|round(2)}}/5.0 ( {{r_cnt}} {% if r_count == 1 %} Review{% else %} Reviews{% endif %} )
                 {% else %}
                     ( 0 Reviews )
                 {% endif %}
@@ -125,7 +125,8 @@
                                                 </i>
                                             </p>
                                             <p class="content my-0 py-0">From: <strong>{{rev.from_user.username}}</strong></p>
-                                            <p class="content my-0 py-0">Message: <strong>{{rev.message}}</strong></p>
+                                            <p class="content my-0 py-0">Message: {% if rev.message == None %}{% else %}<strong>{{rev.message}}</strong>{% endif %}</p>
+                                            <p class="content my-0 py-0">Trade: <strong>Trade {{rev.trade.id}}</strong></p>
                                         </div>
                                     </div>
                                 </div>
