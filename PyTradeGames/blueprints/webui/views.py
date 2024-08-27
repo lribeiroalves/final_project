@@ -84,6 +84,11 @@ def add_game():
 def users():
     form = StartTradeForm()
     users = db.session.execute(db.select(Users)).scalars()
+    reviews = db.session.execute(db.select(Reviews)).scalars().all()
+
+    ratings = {user.id:[{'avg':user.username}, {'count':user.admin}] for user in users}
+    print(ratings)
+    print(reviews)
 
     return render_template('homepage/users.html', users=users, form=form)
 
