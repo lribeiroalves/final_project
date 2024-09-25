@@ -49,7 +49,7 @@ def create_consoles(makers_query:list):
         Consoles(name = 'Dreamcast', maker = makers_query[3]), # 30
         Consoles(name = 'Game Boy Advance', maker = makers_query[2]), # 31
         Consoles(name = 'Nintendo Game Cube', maker = makers_query[2]), # 32
-        Consoles(name = 'Nintendo Game Cube', maker = makers_query[2]), # 33
+        Consoles(name = '???', maker = makers_query[2]), # 33
         Consoles(name = 'Nintendo DS', maker = makers_query[2]), # 34
         Consoles(name = 'PSP', maker = makers_query[0]), # 35
         Consoles(name = 'Nintendo Wii', maker = makers_query[2]), # 36
@@ -80,46 +80,60 @@ def create_genres():
         Genres(genre = 'War'), # 14
         Genres(genre = 'Fighting'), # 15
         Genres(genre = 'Arcade'), # 16
+        Genres(genre = 'Hack and Slash'), # 17
+        Genres(genre = 'Rhythm'), # 18
     ]
 
 
-def create_games(genres=[], consoles=[]):
+def create_games(genres_query=[], consoles_query=[]):
     games = [
-        Games(name='007: The World Is Not Enough', genres = [genres[0], genres[12]], consoles = [consoles[0]]),
-        Games(name='Ace Combat 2', genres = [genres[14], genres[12]], consoles = [consoles[0]]),
-        Games(name='Ace Combat 3: Electrosphere', genres = [genres[14], genres[12]], consoles = [consoles[0]]),
-        Games(name='All Star Tennis "99"', genres = [genres[11]], consoles = [consoles[0], consoles[27], consoles[28]]),
-        Games(name='Batman & Robin', genres=[genres[0], genres[15]], consoles=[consoles[0]]),
-        Games(name='Bomberman Wars', genres=[genres[0], genres[8]], consoles=[consoles[0], consoles[24]]),
-        Games(name='Castlevania: Symphony of the Night', genres=[genres[0], genres[2]], consoles=[consoles[0], consoles[24], consoles[6], consoles[35], consoles[3]]),
-        Games(name='Chrono Trigger', genres=[genres[0], genres[4]], consoles=[consoles[21], consoles[0], consoles[34]]),
-        Games(name='Crash Bandicoot', genres=[genres[0]], consoles=[consoles[0]]),
-        Games(name='Crash Bandicoot 2: Cortex Strikes Back', genres=[genres[0]], consoles=[consoles[0]]),
-        Games(name='Crash Bandicoot: Warped', genres=[genres[0]], consoles=[consoles[0]]),
-        Games(name='Crash Team Racing', genres=[genres[0]], consoles=[consoles[0]]),
-        Games(name='Destruction Derby', genres=[genres[10], genres[15]], consoles=[consoles[0], consoles[24]]),
-        Games(name='Digimon Rumble Arena', genres=[genres[0], genres[15]], consoles=[consoles[0]]),
-        Games(name='Digimon World', genres=[genres[0], genres[15], genres[4]], consoles=[consoles[0]]),
-        Games(name='Digimon World 2', genres=[genres[0], genres[15], genres[4]], consoles=[consoles[0]]),
-        Games(name='Digimon World 3', genres=[genres[0], genres[15], genres[4]], consoles=[consoles[0]]),
-        Games(name='Dino Crisis', genres=[genres[0]], consoles=[consoles[0], consoles[30]]),
-        Games(name='Dragon Ball GT: Final Bout', genres=[genres[15]], consoles=[consoles[0]]),
-        Games(name='Final Fantasy VIII', genres=[genres[15], genres[4]], consoles=[consoles[0], consoles[41], consoles[3], consoles[7]]),
-        Games(name='Dragon Ball GT: Final Bout', genres=[genres[0], genres[4], genres[12]], consoles=[consoles[0], consoles[28]]),
-        Games(name='Medal of Honor', genres=[genres[13], genres[14]], consoles=[consoles[0]]),
-        Games(name='Mega Man X6', genres=[genres[0], genres[12], genres[2]], consoles=[consoles[0]]),
-        Games(name='Mortal Kombat Trilogy', genres=[genres[15]], consoles=[consoles[0], consoles[24], consoles[27]]),
-        Games(name='Pepsiman', genres=[genres[0]], consoles=[consoles[0]]),
-        Games(name='Resident Evil', genres=[genres[0], genres[1], genres[3]], consoles=[consoles[0], consoles[24], consoles[34]]),
-        Games(name='Spider Man', genres=[genres[0], genres[15]], consoles=[consoles[0], consoles[27], consoles[30], consoles[28]]),
-        Games(name='Spider Man 2: Enter Electro', genres=[genres[0], genres[15]], consoles=[consoles[0]]),
-        Games(name='Spyro the Dragon', genres=[genres[0]], consoles=[consoles[0]]),
-        Games(name='Tomb Raider', genres=[genres[0]], consoles=[consoles[0], consoles[24]]),
-        Games(name='Tomb Raider II', genres=[genres[0]], consoles=[consoles[0]]),
-        Games(name='Tomb Raider III: Adventures of Lara Croft', genres=[genres[0]], consoles=[consoles[0]]),
-        Games(name="Tony Hawk's Pro Skater", genres=[genres[11]], consoles=[consoles[0], consoles[27], consoles[28], consoles[30]]),
-        Games(name="Tony Hawk's Pro Skater 2", genres=[genres[11]], consoles=[consoles[0], consoles[27], consoles[28], consoles[30], consoles[31]]),
-        Games(name='Vigilante 8', genres=[genres[14], genres[10]], consoles=[consoles[0], consoles[27], consoles[28]])
+        Games(name='007: The World Is Not Enough', genres = [genres_query[0], genres_query[12]], consoles = [consoles_query[0]]),
+        Games(name='Ace Combat 2', genres = [genres_query[14], genres_query[12]], consoles = [consoles_query[0]]),
+        Games(name='Ace Combat 3: Electrosphere', genres = [genres_query[14], genres_query[12]], consoles = [consoles_query[0]]),
+        Games(name='All Star Tennis "99"', genres = [genres_query[11]], consoles = [consoles_query[0], consoles_query[27], consoles_query[28]]),
+        Games(name='Batman & Robin', genres=[genres_query[0], genres_query[15]], consoles=[consoles_query[0]]),
+        Games(name='Bomberman Wars', genres=[genres_query[0], genres_query[8]], consoles=[consoles_query[0], consoles_query[24]]),
+        Games(name='Castlevania: Symphony of the Night', genres=[genres_query[0], genres_query[2]], consoles=[consoles_query[0], consoles_query[24], consoles_query[6], consoles_query[35], consoles_query[3]]),
+        Games(name='Chrono Trigger', genres=[genres_query[0], genres_query[4]], consoles=[consoles_query[21], consoles_query[0], consoles_query[34]]),
+        Games(name='Crash Bandicoot', genres=[genres_query[0]], consoles=[consoles_query[0]]),
+        Games(name='Crash Bandicoot 2: Cortex Strikes Back', genres=[genres_query[0]], consoles=[consoles_query[0]]),
+        Games(name='Crash Bandicoot: Warped', genres=[genres_query[0]], consoles=[consoles_query[0]]),
+        Games(name='Crash Team Racing', genres=[genres_query[0]], consoles=[consoles_query[0]]),
+        Games(name='Destruction Derby', genres=[genres_query[10], genres_query[15]], consoles=[consoles_query[0], consoles_query[24]]),
+        Games(name='Digimon Rumble Arena', genres=[genres_query[0], genres_query[15]], consoles=[consoles_query[0]]),
+        Games(name='Digimon World', genres=[genres_query[0], genres_query[15], genres_query[4]], consoles=[consoles_query[0]]),
+        Games(name='Digimon World 2', genres=[genres_query[0], genres_query[15], genres_query[4]], consoles=[consoles_query[0]]),
+        Games(name='Digimon World 3', genres=[genres_query[0], genres_query[15], genres_query[4]], consoles=[consoles_query[0]]),
+        Games(name='Dino Crisis', genres=[genres_query[0]], consoles=[consoles_query[0], consoles_query[30]]),
+        Games(name='Dragon Ball GT: Final Bout', genres=[genres_query[15]], consoles=[consoles_query[0]]),
+        Games(name='Final Fantasy VIII', genres=[genres_query[15], genres_query[4]], consoles=[consoles_query[0], consoles_query[41], consoles_query[3], consoles_query[7]]),
+        Games(name='Dragon Ball GT: Final Bout', genres=[genres_query[0], genres_query[4], genres_query[12]], consoles=[consoles_query[0], consoles_query[28]]),
+        Games(name='Medal of Honor', genres=[genres_query[13], genres_query[14]], consoles=[consoles_query[0]]),
+        Games(name='Mega Man X6', genres=[genres_query[0], genres_query[12], genres_query[2]], consoles=[consoles_query[0]]),
+        Games(name='Mortal Kombat Trilogy', genres=[genres_query[15]], consoles=[consoles_query[0], consoles_query[24], consoles_query[27]]),
+        Games(name='Pepsiman', genres=[genres_query[0]], consoles=[consoles_query[0]]),
+        Games(name='Resident Evil', genres=[genres_query[0], genres_query[1], genres_query[3]], consoles=[consoles_query[0], consoles_query[24], consoles_query[34]]),
+        Games(name='Spider Man', genres=[genres_query[0], genres_query[15]], consoles=[consoles_query[0], consoles_query[27], consoles_query[30], consoles_query[28]]),
+        Games(name='Spider Man 2: Enter Electro', genres=[genres_query[0], genres_query[15]], consoles=[consoles_query[0]]),
+        Games(name='Spyro the Dragon', genres=[genres_query[0]], consoles=[consoles_query[0]]),
+        Games(name='Tomb Raider', genres=[genres_query[0]], consoles=[consoles_query[0], consoles_query[24]]),
+        Games(name='Tomb Raider II', genres=[genres_query[0]], consoles=[consoles_query[0]]),
+        Games(name='Tomb Raider III: Adventures of Lara Croft', genres=[genres_query[0]], consoles=[consoles_query[0]]),
+        Games(name="Tony Hawk's Pro Skater", genres=[genres_query[11]], consoles=[consoles_query[0], consoles_query[27], consoles_query[28], consoles_query[30]]),
+        Games(name="Tony Hawk's Pro Skater 2", genres=[genres_query[11]], consoles=[consoles_query[0], consoles_query[27], consoles_query[28], consoles_query[30], consoles_query[31]]),
+        Games(name='Vigilante 8', genres=[genres_query[14], genres_query[10]], consoles=[consoles_query[0], consoles_query[27], consoles_query[28]]),
+        Games(name='Black', genres=[genres_query[12], genres_query[13], genres_query[14]], consoles=[consoles_query[1], consoles_query[5]]),
+        Games(name='Bully', genres=[genres_query[0]], consoles=[consoles_query[1], consoles_query[6], consoles_query[36]]),
+        Games(name='Burnout 3: Takedown', genres=[genres_query[10]], consoles=[consoles_query[1], consoles_query[5]]),
+        Games(name='Call of Duty 3', genres=[genres_query[12], genres_query[13], genres_query[14]], consoles=[consoles_query[1], consoles_query[2], consoles_query[5], consoles_query[6], consoles_query[36]]),
+        Games(name='Dragon Ball Z: Budokai Tenkaichi 3', genres=[genres_query[15]], consoles=[consoles_query[1], consoles_query[36]]),
+        Games(name='Final Fantasy XI', genres=[genres_query[0], genres_query[4]], consoles=[consoles_query[1], consoles_query[6]]),
+        Games(name='Grand Theft Auto: San Andreas', genres=[genres_query[0], genres_query[12]], consoles=[consoles_query[1]]),
+        Games(name='God of War', genres=[genres_query[0], genres_query[17]], consoles=[consoles_query[1]]),
+        Games(name='Guitar Hero II', genres=[genres_query[18]], consoles=[consoles_query[1], consoles_query[6]]),
+        Games(name='Harry Potter: Quidditch World Cup', genres=[genres_query[11]], consoles=[consoles_query[32], consoles_query[31], consoles_query[34], consoles_query[1]]),
+        Games(name='Mortal Kombat: Shaolin Monks', genres=[genres_query[15], genres_query[0]], consoles=[consoles_query[1], consoles_query[5]]),
+        # Games(name='', genres=[], consoles=[]),
     ]
 
 
