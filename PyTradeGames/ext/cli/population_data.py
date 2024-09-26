@@ -4,6 +4,8 @@ from PyTradeGames.ext.database import db
 from PyTradeGames.ext.database.models import Users, Games, Genres, Maker, Consoles, Trades
 
 import random
+from werkzeug.security import generate_password_hash
+import datetime
 
 
 def create_makers():    
@@ -15,8 +17,10 @@ def create_makers():
         Maker(name = 'Atari'),
     ]
 
+    return makers
 
-def create_consoles(makers_query:list):
+
+def create_consoles(makers_query: list):
     consoles = [
         Consoles(name = 'PlayStation - PS1', maker = makers_query[0]), # 0
         Consoles(name = 'PlayStation 2 - PS2', maker = makers_query[0]), # 1
@@ -30,7 +34,7 @@ def create_consoles(makers_query:list):
         Consoles(name = 'Pong', maker = makers_query[4]), # 9
         Consoles(name = 'Color TV Game', maker = makers_query[2]), # 10
         Consoles(name = 'Atari 2600', maker = makers_query[4]), # 11
-        Consoles(name = 'Atari 2600', maker = makers_query[4]), # 12
+        Consoles(name = '?', maker = makers_query[4]), # 12
         Consoles(name = 'Atari 5200', maker = makers_query[4]), # 13
         Consoles(name = 'Atari 2800', maker = makers_query[4]), # 14
         Consoles(name = 'Atari 7800', maker = makers_query[4]), # 15
@@ -40,10 +44,10 @@ def create_consoles(makers_query:list):
         Consoles(name = 'Game Gear', maker = makers_query[3]), # 19
         Consoles(name = 'Mega Drive/Genesis', maker = makers_query[3]), # 20
         Consoles(name = 'Super Nintendo/Super Famicon', maker = makers_query[2]), # 21
-        Consoles(name = '???', maker = makers_query[2]), # 22
+        Consoles(name = '??', maker = makers_query[2]), # 22
         Consoles(name = 'Atari Jaguar', maker = makers_query[4]), # 23
         Consoles(name = 'Sega Saturn', maker = makers_query[3]), # 24
-        Consoles(name = 'Sega Saturn', maker = makers_query[3]), # 25
+        Consoles(name = '???', maker = makers_query[3]), # 25
         Consoles(name = 'Virtual Boy', maker = makers_query[2]), # 26
         Consoles(name = 'Nintendo 64', maker = makers_query[2]), # 27
         Consoles(name = 'Game Boy Color', maker = makers_query[2]), # 28
@@ -51,16 +55,18 @@ def create_consoles(makers_query:list):
         Consoles(name = 'Dreamcast', maker = makers_query[3]), # 30
         Consoles(name = 'Game Boy Advance', maker = makers_query[2]), # 31
         Consoles(name = 'Nintendo Game Cube', maker = makers_query[2]), # 32
-        Consoles(name = '???', maker = makers_query[2]), # 33
+        Consoles(name = '????', maker = makers_query[2]), # 33
         Consoles(name = 'Nintendo DS', maker = makers_query[2]), # 34
         Consoles(name = 'PSP', maker = makers_query[0]), # 35
         Consoles(name = 'Nintendo Wii', maker = makers_query[2]), # 36
         Consoles(name = 'Nintendo 3DS', maker = makers_query[2]), # 37
         Consoles(name = 'PlayStation Vita', maker = makers_query[0]), # 38
         Consoles(name = 'Nintendo Wii U', maker = makers_query[2]), # 39
-        Consoles(name = 'Nintendo Wii U', maker = makers_query[2]), # 40
+        Consoles(name = '?????', maker = makers_query[2]), # 40
         Consoles(name = 'Nintendo Switch', maker = makers_query[2]), # 41
     ]
+
+    return consoles
 
 
 def create_genres():
@@ -86,8 +92,10 @@ def create_genres():
         Genres(genre = 'Rhythm'), # 18
     ]
 
+    return genres
 
-def create_games(genres_query=[], consoles_query=[]):
+
+def create_games(genres_query: list, consoles_query: list):
     games = [
         Games(name='007: The World Is Not Enough', genres = [genres_query[0], genres_query[12]], consoles = [consoles_query[0]]),
         Games(name='Ace Combat 2', genres = [genres_query[14], genres_query[12]], consoles = [consoles_query[0]]),
@@ -109,7 +117,6 @@ def create_games(genres_query=[], consoles_query=[]):
         Games(name='Dino Crisis', genres=[genres_query[0]], consoles=[consoles_query[0], consoles_query[30]]),
         Games(name='Dragon Ball GT: Final Bout', genres=[genres_query[15]], consoles=[consoles_query[0]]),
         Games(name='Final Fantasy VIII', genres=[genres_query[15], genres_query[4]], consoles=[consoles_query[0], consoles_query[41], consoles_query[3], consoles_query[7]]),
-        Games(name='Dragon Ball GT: Final Bout', genres=[genres_query[0], genres_query[4], genres_query[12]], consoles=[consoles_query[0], consoles_query[28]]),
         Games(name='Medal of Honor', genres=[genres_query[13], genres_query[14]], consoles=[consoles_query[0]]),
         Games(name='Mega Man X6', genres=[genres_query[0], genres_query[12], genres_query[2]], consoles=[consoles_query[0]]),
         Games(name='Mortal Kombat Trilogy', genres=[genres_query[15]], consoles=[consoles_query[0], consoles_query[24], consoles_query[27]]),
@@ -138,21 +145,37 @@ def create_games(genres_query=[], consoles_query=[]):
         # Games(name='', genres=[], consoles=[]),
     ]
 
+    return games
 
-def create_nicknames(n):
+
+def create_nicknames(n=1):
     names = ['liam', 'noah', 'williams', 'lucas', 'jhon', 'olivia', 'luna', 'ava', 'evelyn', 'selma', 'sandra', 'linda', 'alex', 'elijah', 'agatha', 'harry', 'ginny', 'luna', 'nevile', 'ron', 'albert', 'paul', 'logan', 'desmond', 'clark', 'tom', 'bruce', 'avory']
-    surnames = ['smith', 'johnson', 'lispector', 'brown', 'ribeiro', 'santos', 'oliveira', 'rowling', 'stewart', 'porter', 'potter', 'weasley', 'mcgonnagel', 'mclaggen', 'longbottom', 'krum', 'touring', 'einstein', 'miles', 'morales', 'parker', 'kent']
+    surnames = ['smith', 'johnson', 'lispector', 'brown', 'ribeiro', 'santos', 'oliveira', 'rowling', 'stewart', 'porter', 'potter', 'weasley', 'mcgonagall', 'mclaggen', 'longbottom', 'krum', 'touring', 'einstein', 'miles', 'morales', 'parker', 'kent']
     symbols = ['_', '@', '-', '.']
     
-    nicks = []
+    nicks = [f'{random.choice(names)}{random.choice(symbols)}{random.choice(surnames)}' for k in range(n)]
     
-    for c in range(n):
-        nicks.append(f'{}')
+    return nicks
 
 
-def create_users(games_query:list):
+def create_users(games_query: list):
     users = [
-        Users(username = 'admin', email = 'admin@admin.com', password = generate_password_hash('Admin@Py_Trade_Games'), admin = True, since = datetime.datetime.now()),
-        Users(username = 'lribeiro', email = 'lucasribeiroalves@live.com', password = generate_password_hash('Flask@2024'), admin = False, games = [g for g in games_query], since = datetime.datetime.now()),
-        Users(username = 'seduarte', email = 'selma@hotmail.com', password = generate_password_hash('Flask@2024'), admin = False, games = [games_query[1]], since = datetime.datetime.now()),
+        Users(username = 'admin', email = 'admin@admin.com', password = generate_password_hash('admin'), admin = True, since = datetime.datetime.now()),
+        Users(username = 'lribeiro', email = 'lucasribeiroalves@live.com', password = generate_password_hash('lribeiro'), admin = False, games = [g for g in games_query], since = datetime.datetime.now()),
+        Users(username = 'seduarte', email = 'selma@hotmail.com', password = generate_password_hash('seduarte'), admin = False, games = [games_query[1]], since = datetime.datetime.now()),
     ]
+
+    new_users_count = 30
+
+    nicks = list(set(create_nicknames(new_users_count)))
+
+    for c in range(len(nicks)):
+        users.append(
+            Users(username = nicks[c], email = f'{nicks[c][::-1]}@email.com', password = generate_password_hash(nicks[c]), admin = False, since = datetime.datetime.now(), games = list(set(random.choices(games_query, k=random.randint(1, 15)))))
+        )
+    
+    return users
+
+
+if __name__ == '__main__':
+    print(create_nicknames(5))

@@ -157,7 +157,11 @@
                                             {% endif %}
                                         </td>
                                         <td>
-                                            {{ratings[user.id][0]}}/5.0 ({{ratings[user.id][1]}} Reviews)
+                                            {% if ratings %}
+                                                {{ratings[user.id][0]}}/5.0 ({{ratings[user.id][1]}} Reviews)
+                                            {% else %}
+                                                <p>-/-</p>
+                                            {% endif %}
                                         </td>
                                         {% if current_user.is_authenticated %}
                                             {% if user.id != current_user.id %}
