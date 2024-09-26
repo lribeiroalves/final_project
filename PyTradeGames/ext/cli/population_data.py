@@ -3,6 +3,8 @@
 from PyTradeGames.ext.database import db
 from PyTradeGames.ext.database.models import Users, Games, Genres, Maker, Consoles, Trades
 
+import random
+
 
 def create_makers():    
     makers = [
@@ -135,6 +137,17 @@ def create_games(genres_query=[], consoles_query=[]):
         Games(name='Mortal Kombat: Shaolin Monks', genres=[genres_query[15], genres_query[0]], consoles=[consoles_query[1], consoles_query[5]]),
         # Games(name='', genres=[], consoles=[]),
     ]
+
+
+def create_nicknames(n):
+    names = ['liam', 'noah', 'williams', 'lucas', 'jhon', 'olivia', 'luna', 'ava', 'evelyn', 'selma', 'sandra', 'linda', 'alex', 'elijah', 'agatha', 'harry', 'ginny', 'luna', 'nevile', 'ron', 'albert', 'paul', 'logan', 'desmond', 'clark', 'tom', 'bruce', 'avory']
+    surnames = ['smith', 'johnson', 'lispector', 'brown', 'ribeiro', 'santos', 'oliveira', 'rowling', 'stewart', 'porter', 'potter', 'weasley', 'mcgonnagel', 'mclaggen', 'longbottom', 'krum', 'touring', 'einstein', 'miles', 'morales', 'parker', 'kent']
+    symbols = ['_', '@', '-', '.']
+    
+    nicks = []
+    
+    for c in range(n):
+        nicks.append(f'{}')
 
 
 def create_users(games_query:list):
