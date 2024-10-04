@@ -161,7 +161,7 @@ def create_nicknames(n=1):
 def create_users(games_query: list):
     users = [
         Users(username = 'admin', email = 'admin@admin.com', password = generate_password_hash('admin'), admin = True, since = datetime.datetime.now()),
-        Users(username = 'lribeiro', email = 'lucasribeiroalves@live.com', password = generate_password_hash('lribeiro'), admin = False, games = [g for g in games_query], since = datetime.datetime.now()),
+        Users(username = 'lribeiro', email = 'lucasribeiroalves@live.com', password = generate_password_hash('lribeiro'), admin = False, games = list(set(random.choices(games_query, k=random.randint(1, 15)))), since = datetime.datetime.now()),
         Users(username = 'seduarte', email = 'selma@hotmail.com', password = generate_password_hash('seduarte'), admin = False, games = [games_query[1]], since = datetime.datetime.now()),
     ]
 
@@ -171,7 +171,14 @@ def create_users(games_query: list):
 
     for c in range(len(nicks)):
         users.append(
-            Users(username = nicks[c], email = f'{nicks[c][::-1]}@email.com', password = generate_password_hash(nicks[c]), admin = False, since = datetime.datetime.now(), games = list(set(random.choices(games_query, k=random.randint(1, 15)))))
+            Users(
+                username = nicks[c],
+                email = f'{nicks[c][::-1]}@email.com',
+                password = generate_password_hash(nicks[c]),
+                admin = False,
+                since = datetime.datetime.now(),
+                games = list(set(random.choices(games_query, k=random.randint(1, 15))))
+            )
         )
     
     return users

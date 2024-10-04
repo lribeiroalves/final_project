@@ -1,0 +1,13 @@
+To do list:
+
+- edit admin homepage
+    - show 'welcome' to admin user
+    - show 'you shouldnt be here' for not admin users
+
+- create trades between users
+    - create finished and unfinished trades with messages
+    - rate users for data
+
+- finish homepage
+    - Put the website logo in the main area
+    - put the other snippets on steps 2 to 4
