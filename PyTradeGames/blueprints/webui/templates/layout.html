@@ -31,6 +31,9 @@
                             <li><a href="{{url_for('webui.index')}}" class="nav-link px-2 text-{% block nav_home %}{% endblock %}">Home</a></li> <!-- Tela inicial -->
                             <li><a href="{{url_for('webui.users')}}" class="nav-link px-2 text-{% block nav_users %}{% endblock %}">Users</a></li> <!-- Tela para exibir os outros usuários e seus jogos e iniciar intenções de troca -->
                             <li><a href="{{url_for('webui.games')}}" class="nav-link px-2 text-{% block nav_games %}{% endblock %}">Games</a></li> <!-- Tela para cadastrar novos jogos para o próprio usuário -->
+                            {% if current_user.admin %}    
+                                <li><a href="{{url_for('admin.index')}}" class="nav-link px-2 text-white">Admin</a></li> <!-- Tela para interface admin, apenas para admin users -->
+                            {% endif %}
                         </ul>
                         
                         {% if not current_user.is_authenticated %}

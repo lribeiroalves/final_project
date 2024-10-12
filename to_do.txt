@@ -1,8 +1,8 @@
 To do list:
 
 - edit admin homepage
-    - show 'welcome' to admin user
-    - show 'you shouldnt be here' for not admin users
+    - show 'welcome' to admin user - CHECKED
+    - show 'you shouldnt be here' for not admin users - CHECKED
 
 - create trades between users
     - create finished and unfinished trades with messages

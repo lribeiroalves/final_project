@@ -281,7 +281,7 @@ def logout():
         logout_user()
         flash('User logged out.')
 
-    return redirect(url_for('webui.index'))
+    return redirect(url_for('webui.login'))
 
 
 def register():

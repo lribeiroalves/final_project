@@ -1,5 +1,10 @@
 {% extends 'admin/master.html' %}
 
 {% block body %}
-  <p><strong>Hello World!</strong></p>
+  {% if current_user.admin %}
+    <h1><strong>Welcome Admin!</strong></h1>
+  {% else %}
+    <h1><strong>You shouldn't be here.</strong></h1>
+  {% endif %}
+    <a href="{{url_for('webui.index')}}"><button class="btn btn-warning" style="color: black; text-decoration: none; font-weight: bold; margin-top: 50px;">Homepage</button></a>
 {% endblock %}
